@@ -74,6 +74,8 @@ public class Driver_Controller_VR : MonoBehaviour
 
             reliable_message = n_manager_script.reliable_message;
 
+            update_world_state();
+
             if (current_player == 1)
             {
                 server_get_values_to_send();
@@ -90,10 +92,10 @@ public class Driver_Controller_VR : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (n_manager != null)
+        /*if (n_manager != null)
         {
             update_world_state();
-        }
+        }*/
     }
 
     void Drive()

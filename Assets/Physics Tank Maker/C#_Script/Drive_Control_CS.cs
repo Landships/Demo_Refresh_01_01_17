@@ -164,141 +164,10 @@ public class Drive_Control_CS : MonoBehaviour
 
     void Lever_Input()
     {
-        //"Speed Step" is a convention used by the original author of this code.
-        // It's a value between -2 and 4 that indicates how fast a certain track is moving. 
-        // Originally, there was 1 speed step; I split it into Left_Speed_Step and Right_Speed_Step.
 
-        /*
-        if (Has_Levers)
-        //This is messy. We should move all code inside this conditional out into its own function. 
-        {
-            float leftangle = leftleverscript.gameObject.transform.localRotation.eulerAngles.x;
-            float rightangle = rightleverscript.gameObject.transform.localRotation.eulerAngles.x;
-
-            leftangle = ReCalculate(leftangle);
-            rightangle = ReCalculate(rightangle);
-
-            if (leftangle > 0)
-            {
-                Left_Speed_Step = 4 * leftangle / (leftleverscript.uppercap_degrees / 100);
-            }
-            else if (leftangle < 0)
-            {
-                Left_Speed_Step = 2 * leftangle / (leftleverscript.lowercap_degrees / 100);
-            }
-
-            if (rightangle > 0)
-            {
-                Right_Speed_Step = 4 * rightangle / (rightleverscript.uppercap_degrees / 100);
-            }
-            else if (rightangle < 0)
-            {
-                Right_Speed_Step = 2 * rightangle / (rightleverscript.lowercap_degrees / 100);
-            }*/
-
-
-
-        /*
-            // Speedometer
-            int forwardReverseAngle = 90;
-            int maxAngle = 90;
-            int leftDirection;
-            int rightDirection;
-
-            rightWheel = GameObject.Find("Invisible_SprocketWheel_R").GetComponent<Rigidbody>();
-            leftWheel = GameObject.Find("Invisible_SprocketWheel_L").GetComponent<Rigidbody>();
-
-            Vector3 rightWheelToBody = mainBody.position - rightWheel.position;
-            Vector3 leftWheelToBody = mainBody.position - leftWheel.position;
-
-            if (Vector3.Angle(rightWheelToBody, rightWheel.velocity) > forwardReverseAngle)
-            {
-                rightDirection = 1;
-            }
-            else {
-                rightDirection = -1;
-            }
-            if (Vector3.Angle(leftWheelToBody, leftWheel.velocity) > forwardReverseAngle)
-            {
-                leftDirection = 1;
-            }
-            else {
-                leftDirection = -1;
-            }
-
-            float rightTargetAngle = rightDirection * (Mathf.Min(rightWheel.velocity.magnitude, Max_Speed) / Max_Speed) * maxAngle;
-            float rightCurrAngle = rightSpeedNeedle.GetComponent<RectTransform>().rotation.eulerAngles.z;
-            rightSpeedNeedle.GetComponent<RectTransform>().Rotate(new Vector3(0, 0, -rightTargetAngle - rightCurrAngle));
-            float leftTargetAngle = leftDirection * (Mathf.Min(leftWheel.velocity.magnitude, Max_Speed) / Max_Speed) * maxAngle;
-            float leftCurrAngle = leftSpeedNeedle.GetComponent<RectTransform>().rotation.eulerAngles.z;
-            leftSpeedNeedle.GetComponent<RectTransform>().Rotate(new Vector3(0, 0, -leftTargetAngle - leftCurrAngle));
-            
-
-
-            // Left forward
-            if (Left_Speed_Step > movementThreshold)
-            {
-                leftTreadForward.SetActive(true);
-            }
-            else {
-                leftTreadForward.SetActive(false);
-            }
-            // Left backward
-            if (Left_Speed_Step < -movementThreshold)
-            {
-                leftTreadBackward.SetActive(true);
-            }
-            else {
-                leftTreadBackward.SetActive(false);
-            }
-            // Right forward
-            if (Right_Speed_Step > movementThreshold)
-            {
-                rightTreadForward.SetActive(true);
-            }
-            else {
-                rightTreadForward.SetActive(false);
-            }
-            // Right backward
-            if (Right_Speed_Step < -movementThreshold)
-            {
-                rightTreadBackward.SetActive(true);
-            }
-            else {
-                rightTreadBackward.SetActive(false);
-            }
-        }*/
-
-
-
-        //Left_Speed_Step += leftleverscript.leverpos;
-        //Right_Speed_Step += rightleverscript.leverpos;
 
         if (Input.anyKey)
         {
-            // Input Speed
-
-            /*
-            if (Input.GetKey("w"))
-            {
-                Left_Speed_Step += 1;
-            }
-            if (Input.GetKey("i"))
-            {
-                Right_Speed_Step += 1;
-            }
-            if (Input.GetKey("k"))
-            {
-                Right_Speed_Step -= 1;
-            }
-            if (Input.GetKey("s"))
-            {
-                Left_Speed_Step -= 1;
-
-            }
-            */
-
-
             if (Input.GetKey("x"))
             {
                 L_Temp = 0.0f;
@@ -321,13 +190,134 @@ public class Drive_Control_CS : MonoBehaviour
         else {
             //Decelerate
             Turn_Step = 0;
-            Left_Speed_Step = Mathf.Lerp(Left_Speed_Step, Left_Speed_Step / 2, Time.deltaTime);
-            Right_Speed_Step = Mathf.Lerp(Right_Speed_Step, Right_Speed_Step / 2, Time.deltaTime);
+            //Left_Speed_Step = Mathf.Lerp(Left_Speed_Step, Left_Speed_Step / 2, Time.deltaTime);
+            //Right_Speed_Step = Mathf.Lerp(Right_Speed_Step, Right_Speed_Step / 2, Time.deltaTime);
         }
 
         Speed_Turn_Control();
 
     }
+
+     void Speed_Turn_Control() {
+        // if (!(L_Temp == 0 && R_Temp == 0 && L_Backward_Rate == R_Forward_Rate)) {
+             //Debug.Log("L_Temp: " + L_Temp + " R_Temp: " + R_Temp + " L Backwards: " + L_Backward_Rate + " R Backwards: " + R_Backward_Rate + " L Forwards: " + L_Forward_Rate + " R Forwards: " + R_Forward_Rate);
+          //   Debug.Log("L_step: " + Left_Speed_Step + " R_step: " + Right_Speed_Step + " L rate " + (L_Forward_Flag ? L_Speed_Rate : -L_Speed_Rate) + " R rate: " + (R_Forward_Flag ? R_Speed_Rate : -R_Speed_Rate) + " L Brake: " + L_Brake + " R Brake: " + R_Brake);
+        // }
+
+         // Stopped.
+         if (Left_Speed_Step == 0 && Right_Speed_Step == 0 && Turn_Step == 0) {
+             //Debug.Log("CASE1");
+             Stop_Flag = true;
+             L_Temp = 0.0f;
+             R_Temp = 0.0f;
+             L_Brake = 1.00f;
+             R_Brake = 1.00f;
+             return;
+         }
+
+         // Performing an in-place turn; speed should be drastically reduced
+         else if (L_Forward_Flag ^ R_Forward_Flag) {
+             //Debug.Log("CASE2");
+             Stop_Flag = false;
+             if (L_Forward_Flag) {
+                 L_Temp = -Left_Speed_Step / 12.0f;
+                 R_Temp = Right_Speed_Step / 12.0f;
+             } 
+             else {
+                 L_Temp = -Left_Speed_Step / 12.0f;
+                 R_Temp = Right_Speed_Step / 12.0f;
+             }
+             //L_Temp = -Left_Speed_Step / 12.0f;
+             //R_Temp = Right_Speed_Step / 12.0f;
+             L_Brake = 0.00f;
+             R_Brake = 0.00f;
+
+         } 
+         else {
+             // The division by 4 is taken from the original creator's code.
+             // I pretty much built everything 
+             Stop_Flag = false;
+             // No Turn
+             //Debug.Log("CASE3");
+             L_Temp = -Left_Speed_Step / 4.0f;
+             R_Temp = Right_Speed_Step / 4.0f;
+             L_Brake = 0.00f;
+             R_Brake = 0.00f;
+         }
+     }
+
+/*    void Speed_Turn_Control() {
+        if (Speed_Step == 0 && Turn_Step == 0) {
+            Stop_Flag = true;
+            L_Temp = 0.0f;
+            R_Temp = 0.0f;
+            return;
+        } else {
+            Stop_Flag = false;
+            switch (Turn_Step) {
+                case 1: // Smooth Left Turn
+                    L_Temp = -Speed_Step / 4.0f;
+                    R_Temp = Speed_Step / 4.0f;
+                    L_Brake = 0.15f;
+                    R_Brake = 0.0f;
+                    break;
+                case 2: // Smooth Right Turn
+                    L_Temp = -Speed_Step / 4.0f;
+                    R_Temp = Speed_Step / 4.0f;
+                    L_Brake = 0.0f;
+                    R_Brake = 0.15f;
+                    break;
+                case 3: // Brake Left Turn
+                    L_Temp = -Speed_Step / 4.0f;
+                    R_Temp = Speed_Step / 4.0f;
+                    L_Brake = -Lost_Drag_Rate * L_Speed_Rate + 1.0f;
+                    R_Brake = 0.0f;
+                    if (L_Forward_Flag) {
+                        float Temp_Rate = L_Forward_Rate - ((L_Forward_Rate * Lost_Speed_Rate) * Time.deltaTime);
+                        L_Forward_Rate = Temp_Rate;
+                        R_Forward_Rate = Temp_Rate;
+                    } else {
+                        float Temp_Rate = L_Backward_Rate - ((L_Backward_Rate * Lost_Speed_Rate) * Time.deltaTime);
+                        L_Backward_Rate = Temp_Rate;
+                        R_Backward_Rate = Temp_Rate;
+                    }
+                    break;
+                case 4: // Brake Right Turn
+                    L_Temp = -Speed_Step / 4.0f;
+                    R_Temp = Speed_Step / 4.0f;
+                    L_Brake = 0.0f;
+                    R_Brake = -Lost_Drag_Rate * R_Speed_Rate + 1.0f;
+                    if (R_Forward_Flag) {
+                        float Temp_Rate = R_Forward_Rate - ((R_Forward_Rate * Lost_Speed_Rate) * Time.deltaTime);
+                        L_Forward_Rate = Temp_Rate;
+                        R_Forward_Rate = Temp_Rate;
+                    } else {
+                        float Temp_Rate = R_Backward_Rate - ((R_Backward_Rate * Lost_Speed_Rate) * Time.deltaTime);
+                        L_Backward_Rate = Temp_Rate;
+                        R_Backward_Rate = Temp_Rate;
+                    }
+                    break;
+                case 5: // Pivot Left Turn
+                    L_Temp = 0.5f;
+                    R_Temp = 0.5f;
+                    L_Brake = 0.0f;
+                    R_Brake = 0.0f;
+                    break;
+                case 6: // Pivot Right Turn
+                    L_Temp = -0.5f;
+                    R_Temp = -0.5f;
+                    L_Brake = 0.0f;
+                    R_Brake = 0.0f;
+                    break;
+                default: // No Turn
+                    L_Temp = -Speed_Step / 4.0f;
+                    R_Temp = Speed_Step / 4.0f;
+                    L_Brake = 0.0f;
+                    R_Brake = 0.0f;
+                    break;
+            }
+        }
+    }*/
 
 
     void Acceleration()
@@ -441,6 +431,11 @@ public class Drive_Control_CS : MonoBehaviour
                 }
             }
         }
+
+        if (!(L_Temp == 0 && R_Temp == 0 && L_Backward_Rate == R_Forward_Rate)) {
+            //Debug.Log("L_Temp: " + L_Temp + " R_Temp: " + R_Temp + " L Backwards: " + L_Backward_Rate + " R Backwards: " + R_Backward_Rate + " L Forwards: " + L_Forward_Rate + " R Forwards: " + R_Forward_Rate);
+            Debug.Log("L_step: " + Left_Speed_Step + " R_step: " + Right_Speed_Step + " L rate " + (L_Forward_Flag ? L_Speed_Rate : -L_Speed_Rate) + " R rate: " + (R_Forward_Flag ? R_Speed_Rate : -R_Speed_Rate) + " L Brake: " + L_Brake + " R Brake: " + R_Brake);
+        }
     }
 
     float Calculate_Speed_Rate(float Speed_Rate, float Temp)
@@ -478,48 +473,42 @@ public class Drive_Control_CS : MonoBehaviour
         }
     }
 
-    void KeyBoard_Input()
-    {
-        if (Input.GetKey("z") == false && Input.GetKey("c") == false)
-        {
+   
+
+  
+
+    void KeyBoard_Input() {
+        if (Input.GetKey("z") == false && Input.GetKey("c") == false) {
             Vertical = Input.GetAxis("Vertical");
             Horizontal = Input.GetAxis("Horizontal");
             Basic_Drive();
-        }
-        else {
+        } else {
             Stop_Flag = true;
             L_Temp = 0.0f;
             R_Temp = 0.0f;
         }
     }
 
-    void Stick_Input()
-    {
-        if (Input.GetButton("Jump") == false)
-        {
+    void Stick_Input() {
+        if (Input.GetButton("Jump") == false) {
             Vertical = Input.GetAxis("Vertical");
             Horizontal = Input.GetAxis("Horizontal");
             Basic_Drive();
-        }
-        else {
+        } else {
             Stop_Flag = true;
             L_Temp = 0.0f;
             R_Temp = 0.0f;
         }
     }
 
-    void Basic_Drive()
-    {
-        if (Vertical == 0.0f && Horizontal == 0.0f)
-        {
+    void Basic_Drive() {
+        if (Vertical == 0.0f && Horizontal == 0.0f) {
             Stop_Flag = true;
             L_Temp = 0.0f;
             R_Temp = 0.0f;
-        }
-        else {
+        } else {
             Stop_Flag = false;
-            switch (Turn_Type)
-            {
+            switch (Turn_Type) {
                 case 0:
                     Easy_Turn();
                     break;
@@ -530,109 +519,82 @@ public class Drive_Control_CS : MonoBehaviour
         }
     }
 
-    void Easy_Turn()
-    {
-        if (Mathf.Abs(Vertical) == 0.0f)
-        { // Pivot Turn
+    void Easy_Turn() {
+        if (Mathf.Abs(Vertical) == 0.0f) { // Pivot Turn
             L_Temp = -Horizontal;
             R_Temp = -Horizontal;
             L_Brake = 0.0f;
             R_Brake = 0.0f;
-        }
-        else { // Brake Turn
+        } else { // Brake Turn
             L_Temp = -Vertical;
             R_Temp = Vertical;
-            if (Horizontal < 0.0f)
-            {
+            if (Horizontal < 0.0f) {
                 L_Brake = -Horizontal;
                 R_Brake = 0.0f;
-            }
-            else if (Horizontal > 0.0f)
-            {
+            } else if (Horizontal > 0.0f) {
                 L_Brake = 0.0f;
                 R_Brake = Horizontal;
-            }
-            else { // No Turn
+            } else { // No Turn
                 L_Brake = 0.0f;
                 R_Brake = 0.0f;
             }
         }
     }
 
-    void Classic_Turn()
-    {
+    void Classic_Turn() {
         L_Temp = -Vertical;
         R_Temp = Vertical;
-        if (Horizontal < 0.0f)
-        {
+        if (Horizontal < 0.0f) {
             L_Brake = -Horizontal;
             R_Brake = 0.0f;
-        }
-        else if (Horizontal > 0.0f)
-        {
+        } else if (Horizontal > 0.0f) {
             L_Brake = 0.0f;
             R_Brake = Horizontal;
-        }
-        else {
+        } else {
             L_Brake = 0.0f;
             R_Brake = 0.0f;
         }
     }
 
-    void Trigger_Input()
-    {
+    void Trigger_Input() {
         float L_Temp_Trigger = -Input.GetAxis("L_Trigger");
         float R_Temp_Trigger = Input.GetAxis("R_Trigger");
         float L_Temp_Button = +Input.GetAxis("L_Button");
         float R_Temp_Button = -Input.GetAxis("R_Button");
-        if (L_Temp_Trigger >= 0.0f && R_Temp_Trigger <= 0.0f && L_Temp_Button <= 0.0f && R_Temp_Button >= 0.0f)
-        {
+        if (L_Temp_Trigger >= 0.0f && R_Temp_Trigger <= 0.0f && L_Temp_Button <= 0.0f && R_Temp_Button >= 0.0f) {
             Stop_Flag = true;
             L_Temp = 0.0f;
             R_Temp = 0.0f;
             L_Brake = 0.0f;
             R_Brake = 0.0f;
-        }
-        else {
+        } else {
             Stop_Flag = false;
-            if (L_Temp_Button > 0.0f && L_Temp_Trigger >= 0.0f)
-            {
+            if (L_Temp_Button > 0.0f && L_Temp_Trigger >= 0.0f) {
                 L_Temp = L_Temp_Button;
                 L_Brake = 1.0f - L_Temp_Button;
-            }
-            else if (L_Temp_Trigger < 0.0f && L_Temp_Button == 0.0f)
-            {
+            } else if (L_Temp_Trigger < 0.0f && L_Temp_Button == 0.0f) {
                 L_Temp = -1.0f;
                 //L_Brake = Mathf.Lerp ( 1.0f , 0.0f , Mathf.Sqrt ( -L_Temp_Trigger ) ) ;
                 L_Brake = 1.0f + L_Temp_Trigger;
-            }
-            else {
-                if (R_Temp != 0.0f)
-                {
+            } else {
+                if (R_Temp != 0.0f) {
                     L_Temp = R_Temp;
-                }
-                else {
+                } else {
                     L_Temp = 0.0f;
                 }
                 L_Brake = 1.0f;
             }
-            if (R_Temp_Button < 0.0f && R_Temp_Trigger <= 0.0f)
-            {
+            if (R_Temp_Button < 0.0f && R_Temp_Trigger <= 0.0f) {
                 R_Temp = R_Temp_Button;
                 R_Brake = 1.0f + R_Temp_Button;
-            }
-            else if (R_Temp_Trigger > 0.0f && R_Temp_Button == 0.0f)
-            {
+            } else if (R_Temp_Trigger > 0.0f && R_Temp_Button == 0.0f) {
                 R_Temp = 1.0f;
                 //R_Brake = Mathf.Lerp ( 1.0f , 0.0f , Mathf.Sqrt ( R_Temp_Trigger ) ) ;
                 R_Brake = 1.0f - R_Temp_Trigger;
-            }
-            else {
-                if (L_Temp != 0.0f)
-                {
+            } else {
+                if (L_Temp != 0.0f) {
                     R_Temp = L_Temp;
-                }
-                else {
+                } else {
                     R_Temp = 0.0f;
                 }
                 R_Brake = 1.0f;
@@ -640,24 +602,19 @@ public class Drive_Control_CS : MonoBehaviour
         }
     }
 
-    void Stick_Trigger_Input()
-    {
-        if (Input.GetButton("Jump") == false)
-        {
+    void Stick_Trigger_Input() {
+        if (Input.GetButton("Jump") == false) {
             Vertical = Input.GetAxis("R_Trigger") - Input.GetAxis("L_Trigger");
             Horizontal = Input.GetAxis("Horizontal");
-            if (Vertical == 0.0f)
-            {
-                if (Horizontal == 0.0f)
-                {
+            if (Vertical == 0.0f) {
+                if (Horizontal == 0.0f) {
                     Stop_Flag = true;
                     L_Temp = 0.0f;
                     R_Temp = 0.0f;
                     L_Brake = 0.0f;
                     R_Brake = 0.0f;
                     return;
-                }
-                else {
+                } else {
                     Stop_Flag = false;
                     L_Temp = -Horizontal;
                     R_Temp = -Horizontal;
@@ -665,28 +622,22 @@ public class Drive_Control_CS : MonoBehaviour
                     R_Brake = 0.0f;
                     return;
                 }
-            }
-            else {
+            } else {
                 Stop_Flag = false;
                 L_Temp = -Vertical;
                 R_Temp = Vertical;
-                if (Horizontal < 0.0f)
-                {
+                if (Horizontal < 0.0f) {
                     L_Brake = -Horizontal;
                     R_Brake = 0.0f;
-                }
-                else if (Horizontal > 0.0f)
-                {
+                } else if (Horizontal > 0.0f) {
                     L_Brake = 0.0f;
                     R_Brake = Horizontal;
-                }
-                else {
+                } else {
                     L_Brake = 0.0f;
                     R_Brake = 0.0f;
                 }
             }
-        }
-        else {
+        } else {
             Stop_Flag = true;
             L_Temp = 0.0f;
             R_Temp = 0.0f;
@@ -695,21 +646,16 @@ public class Drive_Control_CS : MonoBehaviour
         }
     }
 
-    void Mouse_Input()
-    {
-        if (Input.anyKey)
-        {
+    void Mouse_Input() {
+        //Debug.Log("HERE");
+        if (Input.anyKey) {
+            Debug.Log("HERE2");
             // Input Speed
-            if (Input.GetKeyDown("w"))
-            {
+            if (Input.GetKeyDown("w")) {
                 Speed_Step += 1;
-            }
-            else if (Input.GetKeyDown("s"))
-            {
+            } else if (Input.GetKeyDown("s")) {
                 Speed_Step -= 1;
-            }
-            else if (Input.GetKey("x"))
-            {
+            } else if (Input.GetKey("x")) {
                 L_Temp = 0.0f;
                 R_Temp = 0.0f;
                 L_Brake = 1.0f;
@@ -723,74 +669,25 @@ public class Drive_Control_CS : MonoBehaviour
             }
             Speed_Step = Mathf.Clamp(Speed_Step, -2, 4);
             // Input Turn
-            if (Input.GetKey("q"))
-            { //Smooth Left Turn
+            if (Input.GetKey("q")) { //Smooth Left Turn
                 Turn_Step = 1;
-            }
-            else if (Input.GetKey("e"))
-            { //Smooth Right Turn
+            } else if (Input.GetKey("e")) { //Smooth Right Turn
                 Turn_Step = 2;
-            }
-            else if (Input.GetKey("a"))
-            { // Brake Left Turn
+            } else if (Input.GetKey("a")) { // Brake Left Turn
                 Turn_Step = 3;
-            }
-            else if (Input.GetKey("d"))
-            { //Brake Right Turn
+            } else if (Input.GetKey("d")) { //Brake Right Turn
                 Turn_Step = 4;
-            }
-            else if (Input.GetKey("z"))
-            { //Pivot Left Turn
+            } else if (Input.GetKey("z")) { //Pivot Left Turn
                 Turn_Step = 5;
-            }
-            else if (Input.GetKey("c"))
-            { //Pivot Right Turn
+            } else if (Input.GetKey("c")) { //Pivot Right Turn
                 Turn_Step = 6;
-            }
-            else { // No Turn
+            } else { // No Turn
                 Turn_Step = 0;
             }
-        }
-        else {
+        } else {
             Turn_Step = 0;
         }
         Speed_Turn_Control();
-    }
-
-    void Speed_Turn_Control()
-    {
-        // Stopped.
-        if (Left_Speed_Step == 0 && Right_Speed_Step == 0 && Turn_Step == 0)
-        {
-            Stop_Flag = true;
-            L_Temp = 0.0f;
-            R_Temp = 0.0f;
-            L_Brake = 1.00f;
-            R_Brake = 1.00f;
-            return;
-        }
-
-        // Performing an in-place turn; speed should be drastically reduced
-        else if (L_Forward_Flag ^ R_Forward_Flag)
-        {
-            Stop_Flag = false;
-            L_Temp = -Left_Speed_Step / 12.0f;
-            R_Temp = Right_Speed_Step / 12.0f;
-            L_Brake = 0.00f;
-            R_Brake = 0.00f;
-
-        }
-
-        else {
-            // The division by 4 is taken from the original creator's code.
-            // I pretty much built everything 
-            Stop_Flag = false;
-            // No Turn
-            L_Temp = -Left_Speed_Step / 4.0f;
-            R_Temp = Right_Speed_Step / 4.0f;
-            L_Brake = 0.00f;
-            R_Brake = 0.00f;
-        }
     }
 
     void Mouse_Input_Easy()
