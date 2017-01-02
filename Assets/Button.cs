@@ -14,7 +14,7 @@
         {
             base.StartUsing(usingObject);
             this.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0f, -downForce, 0f), ForceMode.VelocityChange);
-            //turret_controller.OwnerFire();
+            turret_controller.OwnerFire();
         }
 
         protected override void Start()
