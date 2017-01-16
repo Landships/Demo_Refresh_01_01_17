@@ -211,7 +211,7 @@ public class Drive_Control_CS : MonoBehaviour
         return (neg ? (y1 + y2) / (-2) : (y1 + y2) / 2);
     }
 
-    
+    //zero when input is 0, for forwards, backwards
     float powercurve2(float input) {
         float ceiling = 4;
         bool neg = false;
@@ -225,6 +225,7 @@ public class Drive_Control_CS : MonoBehaviour
         return (neg ? - y3 / 2f : y3);
     }
 
+    //nonzero when input is 0, for in-place turns
     float powercurve3(float input) {
         bool neg = false;
         if (input < 0) {
@@ -294,8 +295,6 @@ public class Drive_Control_CS : MonoBehaviour
 
          } 
          else {
-            // The division by 4 is taken from the original creator's code.
-            // I pretty much built everything 
             Left_Speed_Step = powercurve2(Left_Speed_Step);
             Right_Speed_Step = powercurve2(Right_Speed_Step);
 

@@ -12,6 +12,7 @@ using System;
 
 public class Driver_Controller_VR : MonoBehaviour
 {
+    public int designated_player;
     byte current_player; // owner = player 1
 
 
@@ -49,7 +50,7 @@ public class Driver_Controller_VR : MonoBehaviour
         n_manager = GameObject.Find("Custom Network Manager(Clone)");
         n_manager_script = n_manager.GetComponent<network_manager>();
         current_player = (byte)(n_manager_script.client_players_amount);
-        if (current_player != 1)
+        if (current_player != designated_player)
         {
             //this.GetComponent<Drive_Control_CS>().enabled = false;
             //BroadcastMessage("DisableDriveWheel");
@@ -76,7 +77,7 @@ public class Driver_Controller_VR : MonoBehaviour
 
             update_world_state();
 
-            if (current_player == 1)
+            if (current_player == designated_player)
             {
                 server_get_values_to_send();
             }
@@ -150,7 +151,7 @@ public class Driver_Controller_VR : MonoBehaviour
     //if not owner and not host, do nothing, else:
     void update_world_state()
     {
-        if (current_player == 1)
+        if (current_player == designated_player)
         {
             //
         }

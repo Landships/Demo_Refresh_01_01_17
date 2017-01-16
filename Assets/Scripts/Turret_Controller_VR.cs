@@ -7,6 +7,7 @@ using System.Collections;
 
 public class Turret_Controller_VR : MonoBehaviour 
 {
+    public int designated_player;
     byte current_player; // owner = player 2
 
 
@@ -53,7 +54,7 @@ public class Turret_Controller_VR : MonoBehaviour
         n_manager = GameObject.Find("Custom Network Manager(Clone)");
         n_manager_script = n_manager.GetComponent<network_manager>();
         current_player = (byte)(n_manager_script.client_players_amount);
-        if (current_player != 2) {
+        if (current_player != designated_player) {
             cannon_vertical.enabled = false;
             button.GetComponent<VRTK.Button>().enabled = false;
             turret_horizontal.enabled = false;
@@ -80,7 +81,7 @@ public class Turret_Controller_VR : MonoBehaviour
 
             reliable_message = n_manager_script.reliable_message;
 
-            if (current_player == 2) {
+            if (current_player == designated_player) {
                 Move_Turret();
                 client_send_values();
                 
@@ -135,7 +136,7 @@ public class Turret_Controller_VR : MonoBehaviour
 
 
     void update_world_state() {
-        if (current_player == 2) { 
+        if (current_player == designated_player) { 
             //
         } else {
             if (Quaternion.Angle(turret_base.transform.localRotation, Quaternion.Euler(0, turret_base_rotation_y, 0)) > 0.1f)

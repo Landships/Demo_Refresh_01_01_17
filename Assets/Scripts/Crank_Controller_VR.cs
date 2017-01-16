@@ -12,6 +12,7 @@ using System;
 
 public class Crank_Controller_VR : MonoBehaviour
 {
+    public int designated_player;
     byte current_player; // owner = player 2
 
     public GameObject vertical_crank;
@@ -45,7 +46,7 @@ public class Crank_Controller_VR : MonoBehaviour
         n_manager = GameObject.Find("Custom Network Manager(Clone)");
         n_manager_script = n_manager.GetComponent<network_manager>();
         current_player = (byte)(n_manager_script.client_players_amount);
-        if (current_player != 2)
+        if (current_player != designated_player)
         {
             vertical_crank.GetComponent<VRTK.VRTK_InteractableObject>().enabled = false;
             horizontal_crank.GetComponent<VRTK.VRTK_InteractableObject>().enabled = false;
@@ -71,7 +72,7 @@ public class Crank_Controller_VR : MonoBehaviour
 
             reliable_message = n_manager_script.reliable_message;
 
-            if (current_player == 2)
+            if (current_player == designated_player)
             {
                 client_send_values();
             }
@@ -95,7 +96,7 @@ public class Crank_Controller_VR : MonoBehaviour
     //if not owner and not host, do nothing, else:
     void update_world_state()
     {
-        if (current_player == 2)
+        if (current_player == designated_player)
         {
             //
         }
