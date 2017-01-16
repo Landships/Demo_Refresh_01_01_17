@@ -183,8 +183,8 @@ public class Drive_Control_CS : MonoBehaviour
                 return;
             }
 
-            Left_Speed_Step = Mathf.Clamp(Left_Speed_Step, -2, 4);
-            Right_Speed_Step = Mathf.Clamp(Right_Speed_Step, -2, 4);
+            //Left_Speed_Step = Mathf.Clamp(Left_Speed_Step, -2, 4);
+            //Right_Speed_Step = Mathf.Clamp(Right_Speed_Step, -2, 4);
 
         }
         else {
@@ -198,14 +198,70 @@ public class Drive_Control_CS : MonoBehaviour
 
     }
 
-     void Speed_Turn_Control() {
+    //not used atm
+    float powercurve1(float input) {
+        bool neg = false;
+        if (input < 0) {
+            neg = true;
+        }
+        float endpoint = (neg ? 2 : 4);
+        input = Mathf.Abs(input);
+        float y1 = endpoint / 1.491361694f * Mathf.Log10(input + 1);
+        float y2 = (endpoint * input + Mathf.Log10(input)) / (input + 1);
+        return (neg ? (y1 + y2) / (-2) : (y1 + y2) / 2);
+    }
+
+    
+    float powercurve2(float input) {
+        float ceiling = 4;
+        bool neg = false;
+        if (input < 0f) {
+            neg = true;
+        }
+        input = Mathf.Abs(input);
+        float y1 = (-4 / 225f * (input - 15f) * (input - 15f) + 4);
+        float y2 = 3 * Mathf.Log10(input + 1) * 4 / 1.491361694f;
+        float y3 = (y1 + y2) / 4 * ceiling / 7.098f;
+        return (neg ? - y3 / 2f : y3);
+    }
+
+    float powercurve3(float input) {
+        bool neg = false;
+        if (input < 0) {
+            neg = true;
+        }
+        input = Mathf.Abs(input);
+        float y1 = (-4 / 225 * (input - 15) * (input - 15) + 4);
+        float y2 = 3 * Mathf.Log10(input + 1) * 4 / 1.491361694f;
+        float y3 = (((y1 + y2) / 2 * 4 / 7.098f) + 4) / 4;
+        return (neg ? -y3 : y3);
+    }
+
+    void Speed_Turn_Control() {
         // if (!(L_Temp == 0 && R_Temp == 0 && L_Backward_Rate == R_Forward_Rate)) {
-             //Debug.Log("L_Temp: " + L_Temp + " R_Temp: " + R_Temp + " L Backwards: " + L_Backward_Rate + " R Backwards: " + R_Backward_Rate + " L Forwards: " + L_Forward_Rate + " R Forwards: " + R_Forward_Rate);
-          //   Debug.Log("L_step: " + Left_Speed_Step + " R_step: " + Right_Speed_Step + " L rate " + (L_Forward_Flag ? L_Speed_Rate : -L_Speed_Rate) + " R rate: " + (R_Forward_Flag ? R_Speed_Rate : -R_Speed_Rate) + " L Brake: " + L_Brake + " R Brake: " + R_Brake);
+        //Debug.Log("L_Temp: " + L_Temp + " R_Temp: " + R_Temp + " L Backwards: " + L_Backward_Rate + " R Backwards: " + R_Backward_Rate + " L Forwards: " + L_Forward_Rate + " R Forwards: " + R_Forward_Rate);
+        //   Debug.Log("L_step: " + Left_Speed_Step + " R_step: " + Right_Speed_Step + " L rate " + (L_Forward_Flag ? L_Speed_Rate : -L_Speed_Rate) + " R rate: " + (R_Forward_Flag ? R_Speed_Rate : -R_Speed_Rate) + " L Brake: " + L_Brake + " R Brake: " + R_Brake);
         // }
 
-         // Stopped.
-         if (Left_Speed_Step == 0 && Right_Speed_Step == 0 && Turn_Step == 0) {
+        //threshold for reading 0 degrees
+        float threshold = 2.3f;
+
+        if (Mathf.Abs(Left_Speed_Step) < threshold) {
+            Left_Speed_Step = 0;
+        }
+        else {
+            Left_Speed_Step += (Left_Speed_Step > 0) ? -threshold : threshold;
+        }
+
+        if (Mathf.Abs(Right_Speed_Step) < threshold) {
+            Right_Speed_Step = 0;
+        }
+        else {
+            Right_Speed_Step += (Right_Speed_Step > 0) ? -threshold : threshold;
+        }
+
+        // Stopped.
+        if (Left_Speed_Step == 0 && Right_Speed_Step == 0 && Turn_Step == 0) {
              //Debug.Log("CASE1");
              Stop_Flag = true;
              L_Temp = 0.0f;
@@ -216,31 +272,38 @@ public class Drive_Control_CS : MonoBehaviour
          }
 
          // Performing an in-place turn; speed should be drastically reduced
-         else if (L_Forward_Flag ^ R_Forward_Flag) {
-             //Debug.Log("CASE2");
-             Stop_Flag = false;
+         else if (Left_Speed_Step != 0 && Right_Speed_Step != 0 && (L_Forward_Flag ^ R_Forward_Flag)) {
+            
+            Left_Speed_Step = powercurve3(Left_Speed_Step);
+            Right_Speed_Step = powercurve3(Right_Speed_Step);
+            Debug.Log("CASE2" + " L_step: " + Left_Speed_Step + " R_step: " + Right_Speed_Step);
+
+            Stop_Flag = false;
              if (L_Forward_Flag) {
-                 L_Temp = -Left_Speed_Step / 12.0f;
-                 R_Temp = Right_Speed_Step / 12.0f;
+                 L_Temp = -Left_Speed_Step;
+                 R_Temp = Right_Speed_Step;
              } 
              else {
-                 L_Temp = -Left_Speed_Step / 12.0f;
-                 R_Temp = Right_Speed_Step / 12.0f;
+                 L_Temp = -Left_Speed_Step;
+                 R_Temp = Right_Speed_Step;
              }
-             //L_Temp = -Left_Speed_Step / 12.0f;
-             //R_Temp = Right_Speed_Step / 12.0f;
+             L_Temp = L_Temp / 4.0f;
+             R_Temp = R_Temp / 4.0f;
              L_Brake = 0.00f;
              R_Brake = 0.00f;
 
          } 
          else {
-             // The division by 4 is taken from the original creator's code.
-             // I pretty much built everything 
-             Stop_Flag = false;
+            // The division by 4 is taken from the original creator's code.
+            // I pretty much built everything 
+            Left_Speed_Step = powercurve2(Left_Speed_Step);
+            Right_Speed_Step = powercurve2(Right_Speed_Step);
+
+            Stop_Flag = false;
              // No Turn
-             //Debug.Log("CASE3");
-             L_Temp = -Left_Speed_Step / 4.0f;
-             R_Temp = Right_Speed_Step / 4.0f;
+             Debug.Log("CASE3" + " L_step: " + Left_Speed_Step + " R_step: " + Right_Speed_Step);
+             L_Temp = -Left_Speed_Step;
+             R_Temp = Right_Speed_Step;
              L_Brake = 0.00f;
              R_Brake = 0.00f;
          }
@@ -434,7 +497,7 @@ public class Drive_Control_CS : MonoBehaviour
 
         if (!(L_Temp == 0 && R_Temp == 0 && L_Backward_Rate == R_Forward_Rate)) {
             //Debug.Log("L_Temp: " + L_Temp + " R_Temp: " + R_Temp + " L Backwards: " + L_Backward_Rate + " R Backwards: " + R_Backward_Rate + " L Forwards: " + L_Forward_Rate + " R Forwards: " + R_Forward_Rate);
-            Debug.Log("L_step: " + Left_Speed_Step + " R_step: " + Right_Speed_Step + " L rate " + (L_Forward_Flag ? L_Speed_Rate : -L_Speed_Rate) + " R rate: " + (R_Forward_Flag ? R_Speed_Rate : -R_Speed_Rate) + " L Brake: " + L_Brake + " R Brake: " + R_Brake);
+            //Debug.Log("L_step: " + Left_Speed_Step + " R_step: " + Right_Speed_Step + " L rate " + (L_Forward_Flag ? L_Speed_Rate : -L_Speed_Rate) + " R rate: " + (R_Forward_Flag ? R_Speed_Rate : -R_Speed_Rate) + " L Brake: " + L_Brake + " R Brake: " + R_Brake);
         }
     }
 

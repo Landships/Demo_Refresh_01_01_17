@@ -113,6 +113,7 @@ public class Driver_Controller_VR : MonoBehaviour
             right_angle = right_angle - 360;
         }
 
+        /*
         left_angle /= 30f;
         right_angle /= 30f;
 
@@ -135,10 +136,16 @@ public class Driver_Controller_VR : MonoBehaviour
         }
 
         drive_control.Left_Speed_Step = left_angle;
+        drive_control.Right_Speed_Step = right_angle;*/
+
+        drive_control.Left_Speed_Step = left_angle;
         drive_control.Right_Speed_Step = right_angle;
 
         //Debug.Log("left: " + left_angle + " right : " + right_angle);
     }
+
+    
+
 
     //if not owner and not host, do nothing, else:
     void update_world_state()
