@@ -111,14 +111,15 @@ public class Damage_Control_CS : MonoBehaviour {
 	}
 
 	public bool Breaker ( float Hit_Energy ) { //only called on current_player == 2
+        Debug.Log("is this hitting?");
 		lives.loseLife ();
 		if (lives.getLives () <= 0) {
-			//Penetration ();
+			Penetration ();
 
-            if (ai_id == 0) // own tank
+            /*if (ai_id == 0) // own tank
                 transform.root.GetChild(0).GetComponent<Turret_Controller_VR>().Alert_Turret_Penetration();
             else // ai on authority
-                transform.root.GetChild(0).GetComponent<AI_Controller_VR>().Alert_Turret_Penetration(ai_id);
+                transform.root.GetChild(0).GetComponent<AI_Controller_VR>().Alert_Turret_Penetration(ai_id);*/
             
 			return true;
 		}

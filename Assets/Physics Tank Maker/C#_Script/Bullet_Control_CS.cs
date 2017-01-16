@@ -70,6 +70,7 @@ public class Bullet_Control_CS : MonoBehaviour
     {
         if (Live_Flag)
         {
+            Debug.Log("on collision enter");
             Hit(collision.gameObject, collision.contacts[0].normal);
         }
     }
@@ -113,12 +114,13 @@ public class Bullet_Control_CS : MonoBehaviour
                     {
                         Debug.Log("AP Damage " + Hit_Energy + " on " + Temp_Object.name);
                     }
+                    //This part determines which player controls hit detection; ROSS IS SUPPOSED TO ADD REAL COMMENT HERE
                     // Send 'Hit_Energy' to "Damage_Control" script.
-                    if (current_player == 1)
+                    /*if (current_player == 1)
                     {
                         Destroy(this.gameObject);
                         return;
-                    }
+                    }*/
 
                     if (Temp_Script.Breaker(Hit_Energy))
                     {

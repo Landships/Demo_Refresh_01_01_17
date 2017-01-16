@@ -277,7 +277,7 @@ public class Drive_Control_CS : MonoBehaviour
             
             Left_Speed_Step = powercurve3(Left_Speed_Step);
             Right_Speed_Step = powercurve3(Right_Speed_Step);
-            Debug.Log("CASE2" + " L_step: " + Left_Speed_Step + " R_step: " + Right_Speed_Step);
+            //Debug.Log("CASE2" + " L_step: " + Left_Speed_Step + " R_step: " + Right_Speed_Step);
 
             Stop_Flag = false;
              if (L_Forward_Flag) {
@@ -300,7 +300,7 @@ public class Drive_Control_CS : MonoBehaviour
 
             Stop_Flag = false;
              // No Turn
-             Debug.Log("CASE3" + " L_step: " + Left_Speed_Step + " R_step: " + Right_Speed_Step);
+             //Debug.Log("CASE3" + " L_step: " + Left_Speed_Step + " R_step: " + Right_Speed_Step);
              L_Temp = -Left_Speed_Step;
              R_Temp = Right_Speed_Step;
              L_Brake = 0.00f;
