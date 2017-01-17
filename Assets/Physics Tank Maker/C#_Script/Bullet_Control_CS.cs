@@ -116,11 +116,11 @@ public class Bullet_Control_CS : MonoBehaviour
                     }
                     //This makes server projectile a dummy. Do hit detection on player 2.
                     // Send 'Hit_Energy' to "Damage_Control" script.
-                    if (current_player == 1)
+                    /*if (current_player == 1)
                     {
                         Destroy(this.gameObject);
                         return;
-                    }
+                    }*/
 
                     if (Temp_Script.Breaker(Hit_Energy))
                     {
