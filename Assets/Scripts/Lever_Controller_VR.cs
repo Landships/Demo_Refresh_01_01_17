@@ -102,7 +102,7 @@ public class Lever_Controller_VR : MonoBehaviour
         else
         {
             left_lever.transform.localRotation = Quaternion.Lerp(left_lever.transform.localRotation, Quaternion.Euler(left_x, 90, 0), 0.1f);
-            right_lever.transform.localRotation = Quaternion.Lerp(right_lever.transform.localRotation, Quaternion.Euler(right_x, 90, 0), 0.1f);
+            right_lever.transform.localRotation = Quaternion.Lerp(right_lever.transform.localRotation, Quaternion.Euler(right_x, 0, 0), 0.1f);
             //left_lever.transform.localRotation = Quaternion.Euler(left_x, 90, 0);
             //right_lever.transform.localRotation = Quaternion.Euler(right_x, 0, 0);
 
