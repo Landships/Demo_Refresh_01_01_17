@@ -209,7 +209,7 @@ public class network_manager : MonoBehaviour
         /// Build channel configuration
         ConnectionConfig connection_configuration = new ConnectionConfig();
         server_reliable_channel = connection_configuration.AddChannel(QosType.Reliable);
-        server_unreliable_channel = connection_configuration.AddChannel(QosType.UnreliableSequenced);
+        server_unreliable_channel = connection_configuration.AddChannel(QosType.StateUpdate);
 
 
 
@@ -240,7 +240,7 @@ public class network_manager : MonoBehaviour
         /// Build channel configuration
         ConnectionConfig connection_configuration = new ConnectionConfig();
         client_reliable_channel = connection_configuration.AddChannel(QosType.Reliable);
-        client_unreliable_channel = connection_configuration.AddChannel(QosType.UnreliableSequenced);
+        client_unreliable_channel = connection_configuration.AddChannel(QosType.StateUpdate);
 
 
         /// Create Network Topology for host configuration
