@@ -157,8 +157,11 @@ public class Driver_Controller_VR : MonoBehaviour
         }
         else
         {
-            this.transform.localPosition = new Vector3(pos_x, pos_y, pos_z);
-            this.transform.localRotation = Quaternion.Euler(rot_x, rot_y, rot_z);
+            this.transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(pos_x, pos_y, pos_z), 0.1f);
+            this.transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rot_x, rot_y, rot_z), 0.1f);
+
+            //this.transform.localPosition = new Vector3(pos_x, pos_y, pos_z);
+            //this.transform.localRotation = Quaternion.Euler(rot_x, rot_y, rot_z);
 
   
         }

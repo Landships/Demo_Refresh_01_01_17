@@ -108,8 +108,11 @@ void update_world_state()
         }
         else
         {
-            left_hand.transform.position = new Vector3(left_x, left_y, left_z);
-            right_hand.transform.position = new Vector3(right_x, right_y, right_z);
+            left_hand.transform.position = Vector3.Lerp(transform.position, new Vector3(left_x, left_y, left_z), 0.1f);
+            right_hand.transform.position = Vector3.Lerp(transform.position, new Vector3(left_x, left_y, left_z), 0.1f);
+
+            //left_hand.transform.position = new Vector3(left_x, left_y, left_z);
+            //right_hand.transform.position = new Vector3(right_x, right_y, right_z);
         }
     }
 
