@@ -1,30 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using System.Collections.Generic;
-using System;
 
+public class NetBehaviour : MonoBehaviour {
 
-public class PlayerController_VR : MonoBehaviour
-{
+    [Serializeable]
+    public bool require_reliable;
+
+    [Serializable]
     public byte owner_id;
-    byte current_player;
 
+    byte client_id;
+
+    network_manager n_manager_script;
+
+    bool reliable_message = false;
+
+    bool hasAuthority;
+
+    /* client objects
     public GameObject camera_rig;
     public GameObject left_controller;
     public GameObject right_controller;
 
     public GameObject left_hand;
-    public GameObject right_hand;
+    public GameObject right_hand;*/
 
-    // Client Queue
-    int frame = 0;
 
-    int server_player;
-
-    // general
+    /* buffer values
     float left_x;
     float left_y;
     float left_z;
@@ -32,77 +34,36 @@ public class PlayerController_VR : MonoBehaviour
     float right_x;
     float right_y;
     float right_z;
-
+    */
 
     //trigger
 
-    GameObject n_manager;
-    network_manager n_manager_script;
 
-    bool started = false;
-    bool ready = false;
-
-    bool reliable_message = false;
-
-    int frame_interval = 5;
-
-
-    void Start()
+    virtual void Start()
     {
-        n_manager = GameObject.Find("Custom Network Manager(Clone)");
-        n_manager_script = n_manager.GetComponent<network_manager>();
-        current_player = (byte)(n_manager_script.client_players_amount);
-        //client_update_values(n_manager_script.server_to_client_data_large);
-        //server_get_values_to_send();
+        n_manager_script = GameObject.Find("Custom Network Manager(Clone)").GetComponent<network_manager>();
+        client_id = (byte)(n_manager_script.client_players_amount);
+        hasAuthority = (owner_id == client_id);
     }
 
-    void Update()
+    virtual void Update()
     {
-        started = n_manager_script.started;
-        ready = n_manager_script.game_ready;
-
-        server_player = n_manager_script.server_player_control;
-
-        reliable_message = n_manager_script.reliable_message;
-
-        update_world_state();
-
-        if (owner_id == current_player)
+        if (n_manager_script != null)
         {
-            if (current_player == 1)
+            if (require_reliable)
             {
-                server_get_values_to_send();
+                reliable_message = n_manager_script.reliable_message;
             }
-            else
-            {
-                client_send_values();
-            }
-        }
-
-        else
-        {
-            if (current_player == 1)
-            {
-                server_get_client_hands();
-            
-            }
-            else
-            {
-                client_update_values();
-            }
+            update_world_state();
         }
     }
 
-    void FixedUpdate()
-    {
-        //update_world_state();
-    }
+    virtual void ReadReliableBuffer();
 
-
-//if not owner_id and not host, do nothing, else:
-void update_world_state()
+    //if not owner and not host, do nothing, else:
+    void update_world_state()
     {
-        if (current_player == owner_id)
+        if (client_id == owner)
         {
             Read_Camera_Rig();
         }
@@ -125,7 +86,7 @@ void update_world_state()
 
     public byte get_client_player_number()
     {
-        return current_player;
+        return client_id;
     }
 
 
@@ -133,18 +94,23 @@ void update_world_state()
     // Functions that use Block Copy
     // ----------------------------
 
-    void client_send_reliable_message(object sender, VRTK.ControllerInteractionEventArgs e) {
+    void client_send_reliable_message(object sender, VRTK.ControllerInteractionEventArgs e)
+    {
         Debug.Log("CLICKED");
-        if (current_player == 1) {
+        if (client_id == 1)
+        {
             n_manager_script.server_send_reliable();
-        } else {
+        }
+        else
+        {
             n_manager_script.client_send_reliable();
         }
     }
 
 
     // The client get its values/inputs to send to the server
-    void client_send_values() {
+    void client_send_values()
+    {
         float[] left_controller_values = { left_controller.transform.position.x,
                                            left_controller.transform.position.y,
                                            left_controller.transform.position.z };
@@ -160,7 +126,8 @@ void update_world_state()
 
 
     // Server Updates the server larger buffer it is going to send
-    public void server_get_values_to_send() {
+    public void server_get_values_to_send()
+    {
 
         float[] left_controller_values = { left_controller.transform.position.x,
                                            left_controller.transform.position.y,
@@ -180,7 +147,8 @@ void update_world_state()
 
 
     // Client get values from the server buffer
-    void client_update_values() {
+    void client_update_values()
+    {
 
         float[] left_controller_values = n_manager_script.client_read_server_buffer(1);
         float[] right_controller_values = n_manager_script.client_read_server_buffer(2);
@@ -195,7 +163,7 @@ void update_world_state()
 
     }
 
-        // Server Get values from the client buffer, so the client inputs
+    // Server Get values from the client buffer, so the client inputs
     public void server_get_client_hands()
     {
         float[] left_controller_values = n_manager_script.server_read_client_buffer(1);

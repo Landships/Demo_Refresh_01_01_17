@@ -8,7 +8,7 @@ using System.Collections;
 public class Turret_Controller_VR : MonoBehaviour 
 {
     public int designated_player;
-    byte current_player; // owner = player 2
+    byte current_player; // owner_id = player 2
 
 
     // Client Queue
@@ -100,12 +100,10 @@ public class Turret_Controller_VR : MonoBehaviour
                 }
                 server_get_client_hands();
             }
-
-
         }
     }
 
-    public void OwnerFire()
+    public void owner_idFire()
     {
         cannon_fire.Fire();
         n_manager_script.send_reliable_from_client(1, 1);

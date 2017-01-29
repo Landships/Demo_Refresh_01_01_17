@@ -54,7 +54,7 @@ public class spawner_manager : MonoBehaviour
 
 
 
-    void spawn_player(byte number, byte owner)
+    void spawn_player(byte number, byte owner_id)
     {
         float x = 0;
         float y = 0;
@@ -99,7 +99,7 @@ public class spawner_manager : MonoBehaviour
 
         GameObject vr_player = Instantiate(prefab_to_spawn_vr, new Vector3(x, y, z), Quaternion.identity) as GameObject;
 
-        vr_player.gameObject.GetComponent<PlayerController_VR>().owner = owner;
+        vr_player.gameObject.GetComponent<PlayerController_VR>().owner_id = owner_id;
 
         Debug.Log("DONE");
 
@@ -108,8 +108,8 @@ public class spawner_manager : MonoBehaviour
         byte current_player = (byte)(n_manager_script.client_players_amount);
 
 
-        // ADD OWNER TODO!!!!!!!!!!!!!!!!!!
-        if (current_player == owner)
+        // ADD owner_id TODO!!!!!!!!!!!!!!!!!!
+        if (current_player == owner_id)
         {
             //camera_rig.transform.position = new Vector3(x, y, z);
             vr_player.gameObject.GetComponent<PlayerController_VR>().camera_rig = camera_rig;

@@ -13,7 +13,7 @@ using System;
 public class Crank_Controller_VR : MonoBehaviour
 {
     public int designated_player;
-    byte current_player; // owner = player 2
+    byte current_player; // owner_id = player 2
 
     public GameObject vertical_crank;
     public GameObject horizontal_crank;
@@ -93,7 +93,7 @@ public class Crank_Controller_VR : MonoBehaviour
     }
 
 
-    //if not owner and not host, do nothing, else:
+    //if not owner_id and not host, do nothing, else:
     void update_world_state()
     {
         if (current_player == designated_player)

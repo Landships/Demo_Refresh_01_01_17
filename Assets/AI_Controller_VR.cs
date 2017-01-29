@@ -4,7 +4,7 @@ using System.Collections;
 public class AI_Controller_VR : MonoBehaviour {
 
     public int ai_id;
-    byte current_player; // owner = 2
+    byte current_player; // owner_id = 2
 
     GameObject n_manager;
     network_manager n_manager_script;

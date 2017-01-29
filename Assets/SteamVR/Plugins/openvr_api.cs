@@ -3604,7 +3604,7 @@ public enum VROverlayFlags
 	SendVRScrollEvents = 6,
 	SendVRTouchpadEvents = 7,
 	ShowTouchPadScrollWheel = 8,
-	TransferOwnershipToInternalProcess = 9,
+	Transferowner_idshipToInternalProcess = 9,
 	SideBySide_Parallel = 10,
 	SideBySide_Crossed = 11,
 	Panorama = 12,

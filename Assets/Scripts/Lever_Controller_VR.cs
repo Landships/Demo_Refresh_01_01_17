@@ -13,7 +13,7 @@ using System;
 public class Lever_Controller_VR : MonoBehaviour
 {
     public int designated_player;
-    byte current_player; // owner = player 1
+    byte current_player; // owner_id = player 1
 
     public GameObject left_lever;
     public GameObject right_lever;
@@ -92,7 +92,7 @@ public class Lever_Controller_VR : MonoBehaviour
     }
 
 
-    //if not owner and not host, do nothing, else:
+    //if not owner_id and not host, do nothing, else:
     void update_world_state()
     {
         if (current_player == designated_player)
