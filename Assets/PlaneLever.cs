@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 using System.Collections;
 
 // This class handles objects that act as a lever or a crank. Player hands that intersect with it can interact with it, turning it along a designated axis. 
 // The condition of requiring contact or not relates to user testing with the crank. Crank rotation worked best when users are required to keep their hands within the crank collider.
 
-public class PlaneLever : NetworkBehaviour
+public class PlaneLever : MonoBehaviour
 {
     public GameObject HandObject;
 
@@ -26,16 +25,16 @@ public class PlaneLever : NetworkBehaviour
     public Vector3 currentpos;
     private bool firsttime;
 
-    [SyncVar]
+
     public float d_angle;
-    [SyncVar]
+
     public float angle;
 
-    [SyncVar]
+
     public bool leavingcollider = false;
-    [SyncVar]
+
     public bool intersecting = false;
-    [SyncVar]
+
     public bool interacting = false;
 
 
@@ -50,23 +49,6 @@ public class PlaneLever : NetworkBehaviour
         gameObject.tag = "Interactable";
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        bool hasParentParent = other.gameObject.transform.parent != null && other.gameObject.transform.parent.parent != null;
-        if (hasParentParent && other.gameObject.transform.parent.parent.gameObject.tag == "hand")
-        {
-            Debug.Log("hand intersecting");
-
-            HandObject = other.gameObject;
-
-            // Can only intersect if the trigger is not already held.
-            if (!HandObject.GetComponent<PseudoHand>().trigger_on)
-            {
-                
-                intersecting = true;
-            }
-        }
-    }
 
     void OnTriggerExit(Collider other)
     {
@@ -122,7 +104,6 @@ public class PlaneLever : NetworkBehaviour
     }
 
     // Calculates rotation of the lever/crank dependent on the position of the hand.
-    [Server]
     void Calculate()
     {
         if (firsttime)
@@ -163,7 +144,7 @@ public class PlaneLever : NetworkBehaviour
 
     }
 
-    [Server]
+
     void Rotate()
     {
         float capped_d_angle = Mathf.Clamp(d_angle, -6*Mathf.PI / 180, 6*Mathf.PI / 180);
