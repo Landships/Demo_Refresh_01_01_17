@@ -1,0 +1,941 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RadarBuilder2D</name>
+    </assembly>
+    <members>
+        <member name="M:DaiMangou.RadarBuilder2D._2DRadar.CameraSetup">
+            <summary>
+            here we setup main camera, this script will constantly searn for your main camera or camera you wish to find IF it is not yet found
+            during th abscence of a camera , no errors will be thrown.
+            However you will be warned if you do not set a 'Rendering camera' for your radar.
+            </summary>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D._2DRadar.Frontis">
+            <summary>
+            Here we determine which direction we wish for our radars front to be 
+            For example, If you ser Frontis to be East then all blips moving forward through the Z axis will appear to be moving to the east in your radar . 
+            This makes the function very useful for various games
+            </summary>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D._2DRadar.SetRotations">
+            <summary>
+            Here we set the rotation of our radar to be proportional to the rotation of the target camera
+            </summary>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D._2DRadar.SetRadarDimentions">
+            <summary>
+            Scale the radar lie any other object or by usign the  RadarDiameter Value when UseLocalScale is true
+            </summary>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D._2DRadar.SnapAndPositioning">
+            <summary>
+            Snap position allows for the radar to be positioned in 9 points of the screen 
+            </summary>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D._2DRadar.CenterObjectBlip">
+            <summary>
+             Here we create the center blip  by simply checking the blip values which you have set and then instancing a sprite to match your settings. it simply remains in the center of your radar
+             if you have not set the center object to be 'Acive'  then the radar itself will be the centr object and no blip will be shown.
+            </summary>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D._2DRadar.CheckAndSetBlips">
+            <summary>
+            Here we go about instancing all other blips
+            </summary>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D._2DRadar.Minimap">
+            <summary>
+             here we set up and reposition the minimap
+            </summary>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D._2DRadar.RotateSpecifics">
+            <summary>
+            Here we determine what 'Design layers' are to be rotates and what object rotation they will match proportionally | inversely and with a damping
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.ThisScreen">
+            <summary>
+            The current screen
+            </summary>
+        </member>
+        <member name="P:DaiMangou.RadarBuilder2D.ThisScreen.ScreenRect">
+            <summary>
+            The current screen rect
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.RectExt">
+            <summary>
+            Extensions of the Rect class
+            </summary>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.RectExt.SetToMouseCenter(UnityEngine.Rect)">
+            <summary>
+            Will set <paramref name="rect"/> to be positioned at the mouse position
+            </summary>
+            <param name="rect"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.RectExt.SetToMouseCenter(UnityEngine.Rect,System.Single,UnityEngine.Vector2)">
+            <summary>
+             will set <paramref name="rect"/> to be positioned at the mouse positiom at the <paramref name="rect"/> center and scaled by <paramref name="scale"/> with its pivot point at  <paramref name="pivotPoint"/>
+            </summary>
+            <param name="rect"></param>
+            <param name="scale"></param>
+            <param name="pivotPoint"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.RectExt.ToCenter(UnityEngine.Rect,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Will set create a Rect to be of <paramref name="width"/> and <paramref name="height"/> at the center of <paramref name="rect"/> with <paramref name="xPaddin"/> and <paramref name="yPadding"/>
+            </summary>
+            <param name="rect"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="xPadding"></param>
+            <param name="yPadding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.RectExt.ToUpperRight(UnityEngine.Rect,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Will set create a Rect to be of <paramref name="width"/> and <paramref name="height"/> at the upper right of <paramref name="rect"/> with <paramref name="xPaddin"/> and <paramref name="yPadding"/>
+            </summary>
+            <param name="rect"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="xPadding"></param>
+            <param name="yPadding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.RectExt.ToLowerRight(UnityEngine.Rect,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Will set create a Rect to be of <paramref name="width"/> and <paramref name="height"/> at the lower right <paramref name="rect"/> with <paramref name="xPaddin"/> and <paramref name="yPadding"/>
+            </summary>
+            <param name="rect"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="xPadding"></param>
+            <param name="yPadding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.RectExt.ToUpperLeft(UnityEngine.Rect,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Will set create a Rect to be of <paramref name="width"/> and <paramref name="height"/> at the upper left of <paramref name="rect"/> with <paramref name="xPaddin"/> and <paramref name="yPadding"/>
+            </summary>
+            <param name="rect"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="xPadding"></param>
+            <param name="yPadding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.RectExt.ToLowerLeft(UnityEngine.Rect,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Will set create a Rect to be of <paramref name="width"/> and <paramref name="height"/> at the lower left of <paramref name="rect"/> with <paramref name="xPaddin"/> and <paramref name="yPadding"/>
+            </summary>
+            <param name="rect"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="xPadding"></param>
+            <param name="yPadding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.RectExt.ToCenterTop(UnityEngine.Rect,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Will set create a Rect to be of <paramref name="width"/> and <paramref name="height"/> at the top center of <paramref name="rect"/> with <paramref name="xPaddin"/> and <paramref name="yPadding"/>
+            </summary>
+            <param name="rect"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="xPadding"></param>
+            <param name="yPadding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.RectExt.ToCenterBottom(UnityEngine.Rect,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Will set create a Rect to be of <paramref name="width"/> and <paramref name="height"/> at the bottom center of <paramref name="rect"/> with <paramref name="xPaddin"/> and <paramref name="yPadding"/>
+            </summary>
+            <param name="rect"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="xPadding"></param>
+            <param name="yPadding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.RectExt.ToCenterLeft(UnityEngine.Rect,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Will set create a Rect to be of <paramref name="width"/> and <paramref name="height"/> at the left center of <paramref name="rect"/> with <paramref name="xPaddin"/> and <paramref name="yPadding"/>
+            </summary>
+            <param name="rect"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="xPadding"></param>
+            <param name="yPadding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.RectExt.ToCenterRight(UnityEngine.Rect,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Will set create a Rect to be of <paramref name="width"/> and <paramref name="height"/> at the right center of <paramref name="rect"/> with <paramref name="xPaddin"/> and <paramref name="yPadding"/>
+            </summary>
+            <param name="rect"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="xPadding"></param>
+            <param name="yPadding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.RectExt.AddRect(UnityEngine.Rect,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Increases the size of <paramref name="rect"/> by <paramref name="width"/> and <paramref name="height"/> and position of  <paramref name="rect"/> by <paramref name="x"/> and <paramref name="y"/>
+            </summary>
+            <param name="rect"></param>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <returns></returns>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Vector2Ext">
+            <summary>
+            Extension of the Vector2 Class
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:DaiMangou.RadarBuilder2D.Vector2Ext.AddPadding(UnityEngine.Vector2,System.Single,System.Single)" -->
+        <member name="T:DaiMangou.RadarBuilder2D.Vector3Ext">
+            <summary>
+            Extensions of the Vecor3 Class
+            </summary>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.Vector3Ext.Modify(UnityEngine.Vector3,System.Single,System.Single,System.Single)">
+            <summary>
+            Modifies the x,y,z values of <paramref name="vector3"/> by <paramref name="x"/>  , <paramref name="y"/> , <paramref name="z"/>
+            </summary>
+            <param name="vector3"></param>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="z"></param>
+            <returns></returns>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.ListExt">
+            <summary>
+            Extension of the List classs
+            </summary>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.ListExt.Resize``1(System.Collections.Generic.List{``0},System.Int32,``0)">
+            <summary>
+            Resize <paramref name="list"/> by <paramref name="size"/>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+            <param name="size"></param>
+            <param name="c"></param>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.ListExt.AddMany``1(System.Collections.Generic.List{``0},``0[])">
+            <summary>
+            Add multiple values to <paramref name="List"/>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+            <param name="elements"></param>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.DMMath">
+            <summary>
+            DMMath functions 
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.CurrentEvent">
+            <summary>
+            a single 'instance' of Event
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.CurrentRawEvent">
+            <summary>
+            a single 'instance' of Event.rawType
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.FrontIs">
+            <summary>
+            Determining what defines the forward facing position of the radar 
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.valueState">
+            <summary>
+             a selection betwen Positive and Negative
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.RetargetRotation">
+            <summary>
+            Determining what axis value we wish to pass to another axis value
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.Rotations">
+            <summary>
+            Selection between Inverse rotation and Proportional rotation
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.TargetObject">
+            <summary>
+            Selection of the way in which you wish to select and object
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.TargetBlip">
+            <summary>
+            The Targeted blips 
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.CreateBlipAs">
+            <summary>
+             A selection between Sprite,Mesh and Prefab
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.RadarPositioning">
+            <summary>
+            The method by which we wish to use to position the radar
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.MapType">
+            <summary>
+            Choose between Realtime minimap or a stati minimap
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MapType.Realtime">
+            <summary>
+            Will tell the Rada r builder to use real time images as MinimapTexture
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MapType.Static">
+            <summary>
+            Will tell Radar Builder to use a Static predesigned image as Minmap texture
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.RotationTarget">
+            <summary>
+            <para> Defines the object which is to be targeted and the way in which it must be rotated </para>
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.ShowDesignSetings">
+            <summary>
+            called only from editor , and is not necessary at runtime 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.UseY">
+            <summary>
+            When true , the z rotation will be the same as the Y rotation
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.FreezeX">
+            <summary>
+            Freeze rotation around particular axis
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.FreezeY">
+            <summary>
+            Freeze rotation around particular axis
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.FreezeZ">
+            <summary>
+            Freeze rotation around particular axis
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.RotationDamping">
+            <summary>
+            Damping used to control rotation of particular design layer
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.tag">
+            <summary>
+            the string tag you define 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.FindingName">
+            <summary>
+            the name of the object you wish to find
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.InstancedObjectToTrackBlipName">
+            <summary>
+            The name of the instanced object  you wish to target
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.InstancedTargetBlipname">
+            <summary>
+            the name of the instanced blip you wish to track
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.rotations">
+            <summary>
+            Selection between Inverse rotation and Proportional rotation
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.TargetedObject">
+            <summary>
+             This may be a blip or any other object in scene
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.Target">
+            <summary>
+            the object whose rotation you wish to target
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.ObjectToTrack">
+            <summary>
+            Selection of the way in which you wish to select and object
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.target">
+            <summary>
+            The blip you wish to target
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.RetargetedRotation">
+            <summary>
+            Determining what axis value we wish to pass to another axis value
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RotationTarget.ValueState">
+            <summary>
+            A selection between positive and negative
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.MiniMapModule">
+            <summary>
+            Minimap Module 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.mapType">
+            <summary>
+            Choose between Realtime minimap or a stati minimap
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.MapTexture">
+            <summary>
+            Texture to be used for static minimaps
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.generated">
+            <summary>
+            Check if the map has been generated
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.calibrate">
+            <summary>
+            Determine if the static minimap is being calibrated 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.Map">
+            <summary>
+            the objet which will use the Map texture and Masked Material
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.Mask">
+            <summary>
+            the object which will use the mask material
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.SavedSceneScale">
+            <summary>
+            Cashe of the SceneScale vlaue
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.MapScale">
+            <summary>
+            The value set during calibratin of ststic minimap
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.SavedMapScale">
+            <summary>
+            Cashe of the MapScale vlaue
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.Scalingfactor">
+            <summary>
+            Determines by what rate the minmap is scales at rintime
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.MapMaterial">
+            <summary>
+            Masked material
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.MaskMaterial">
+            <summary>
+            Mask Material
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.layer">
+            <summary>
+            The layer on which the minimap will be rendered
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.renderTexture">
+            <summary>
+            the RenderTexture to be used with the realtime minimap
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.RealtimeMinimapCamera">
+            <summary>
+            The camera reading the RenderTexture for the Minimap
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.CameraHeight">
+            <summary>
+            the position of the RealtimeMinimapCamera in the Y axis
+            </summary>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.MaskSprite">
+            <summary>
+            generates are sprite specificially used for the mask layer of the Radar
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DaiMangou.RadarBuilder2D.Editor.MiniMapModule.ProceduralMapQuad">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.Instanced">
+            <summary>
+            checks if all blips have ben instanced
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.IsActive">
+            <summary>
+            check if the blip is set turned on or off
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.ShowBLipSettings">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.ShowSpriteBlipSettings">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.ShowPrefabBlipSettings">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.IsTrackRotation">
+            <summary>
+             Determines if the blip will be tracking the rotation of its target
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.BlipCanScleBasedOnDistance">
+            <summary>
+            Determines if th blips can scale by distance
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.ShowGeneralSettings">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.ShowAdditionalOptions">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.AlwaysShowBlipsInRadarSpace">
+            <summary>
+            determines if the blip should always remeing inside the radar 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.icon">
+            <summary>
+            The blip icon if the blip is a sprite
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.State">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.Tag">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.SpriteMaterial">
+            <summary>
+            The material used for the sprite blip
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.colour">
+            <summary>
+             The colour of the sprite blip
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.BlipSize">
+            <summary>
+            The size of the blip
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.DynamicBlipSize">
+            <summary>
+              The constant minimul scale which the blips are scaled to
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.BlipMinSize">
+            <summary>
+            The minimum size of the blip
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.BlipMaxSize">
+            <summary>
+            The maximum size of the blip
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.Layer">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.prefab">
+            <summary>
+            Prefab blip
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.gos">
+            <summary>
+            A list of the objects being tracked
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D.RadarObjectToTrack">
+            <summary>
+            A list of the actual blips you see in your radar
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarBlips2D._CreateBlipAs">
+            <summary>
+            Determines what the blip should be created as , prefab or sprite
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.Instanced">
+            <summary>
+            checks if all blips have ben instanced
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.IsActive">
+            <summary>
+            check if the blip is set turned on or off
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.ShowCenterBLipSettings">
+            <summary>
+            INTERNAL USE ONLY 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.ShowSpriteBlipSettings">
+            <summary>
+            INTERNAL USE ONLY 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.ShowPrefabBlipSettings">
+            <summary>
+            INTERNAL USE ONLY 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.IsTrackRotation">
+            <summary>
+             Determines if the blip will be tracking the rotation of its target
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.ShowGeneralSettings">
+            <summary>
+            INTERNAL USE ONLY 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.AlwaysShowCenterObject">
+            <summary>
+            Determines if the enter object or center blip should alwats be shown in th radar 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.CenterObjectCanScaleByDistance">
+            <summary>
+            Determines if the center object (center blip) can scale by distance
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.AutoScaleOnlyAtBorder">
+            <summary>
+             Determines if the center object (center blip) can scale by distance only after pasing the trcking bounds
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.ShowAdditionalOptions">
+            <summary>
+            INTERNAL USE ONLY 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.icon">
+            <summary>
+            The blip icon if the blip is a sprite
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.TrackingLine">
+            <summary>
+            The sprite which will represent the racking line
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.prefab">
+            <summary>
+            prefab blip
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.State">
+            <summary>
+            INTERNAL USE ONLY 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.Tag">
+            <summary>
+            INTERNAL USE ONLY 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.SpriteMaterial">
+            <summary>
+            The material used for the sprite blip
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.colour">
+            <summary>
+            The colour of the sprite blip
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.BlipSize">
+            <summary>
+             The size of the blip
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.DynamicBlipSize">
+            <summary>
+             The default minimum scale of the blip
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.CenterBLipMinSize">
+            <summary>
+            The minimum scale of the blip
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.CenterBLipMaxSize">
+            <summary>
+            The maximum Size of th eblip
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.AutoScaleFactor">
+            <summary>
+            The factor which is used to detemine by how much the blip is scales over distance
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.Layer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.CenterBlip">
+            <summary>
+            The blip at the center of the radar 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D.CenterObject">
+            <summary>
+            The obje t being tracked
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarCenterObject2D._CreateBlipAs">
+            <summary>
+            Determines what the blip should be created as , prefab or sprite
+            </summary>
+        </member>
+        <member name="T:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.RadarDiameter">
+            <summary>
+            This is the Diameter of the radar, this value will directly change the scale of the Radars child object "Designs" once UseSceneScale is false
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.SceneScale">
+            <summary>
+            This is the amound of the scene that the radar is able to 'see' in order to collect dats on things to track and display
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.TrackingBounds">
+            <summary>
+            The range in which all blips can be shown in the radar
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.InnerCullingZone">
+            <summary>
+             The diameter of the zone at the center of the radar in which all blips will ce culled 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.RadarRotationOffset">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.ConstantRadarRenderDistance">
+            <summary>
+            Do not replace this value
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.xPadding">
+            <summary>
+            The padding on the x and Y axis of the radar system
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.yPadding">
+            <summary>
+            The padding on the x and Y axis of the radar system
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.radarPositioning">
+            <summary>
+            Determins if the radar will ise Manual position or Snap Positioning
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.snapPosition">
+            <summary>
+            Determines where in scren space the radar system will be positioned
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.frontIs">
+            <summary>
+            Determining what defines the forward facing position of the radar 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.RadarRect">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.SnappedRect">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.BlipCount">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.DesignsCount">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.UseLocalScale">
+            <summary>
+            Determines if we should use the scale of the Radar "Designs" child object instead of the RadarDiameter 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.Visualize">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.ShowDesignSection">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.IgnoreDiameterScale">
+            <summary>
+            When true, the radar ; diameter (Sale of the Radars "Designs" child object) when scales to a vlue greater or less than one 
+            will not prompt the radar system to reposition itslf automatically to maintain a correct position in screen space
+            
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.LinkToTrackingBounds">
+            <summary>
+            Determines if the tracking bounds values will always be the same as 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.ShowRenderCameraSettings">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.ShowScaleSettings">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.ShowPositioningSettings">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.ShowDesignLayers">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.ManualCameraSetup">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.UseMainCamera">
+            <summary>
+            determines if we will be using the gameobject in the scne with the tag "Main Camera"
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D._2DSystemsWithMinimapFunction">
+            <summary>
+            Determines if the radar can also be a minimap
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.ShowMinimapSettings">
+            <summary>
+            INTERNAL USE ONLY 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.DesignsObject">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.camera">
+            <summary>
+            The camera which will be the camera your player views the world through at any time 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.renderingCamera">
+            <summary>
+            The camera whuch will only render radar systems, (These camera are automatically created for you)
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.CameraTag">
+            <summary>
+            INTERNAL USE ONLY
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.RotationTargets">
+            <summary>
+            The list of Rotation targets 
+            </summary>
+        </member>
+        <member name="F:DaiMangou.RadarBuilder2D.Editor.RadarDesign2D.Pan">
+            <summary>
+            The pan of the blips in the radar
+            </summary>
+        </member>
+    </members>
+</doc>

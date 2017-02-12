@@ -37,7 +37,7 @@ public class Walking : NetworkBehaviour
     private Vector3 oldWayPoint;
 
 
-	private NavMeshAgent nav;                               // Reference to the nav mesh agent.
+	private UnityEngine.AI.NavMeshAgent nav;                               // Reference to the nav mesh agent.
 	public float patrolSpeed = 10f;                          // The nav mesh agent's speed when patrolling.
 	public float patrolWaitTime = 1f;                       // The amount of time to wait when the patrol way point is reached.
 	public Transform[] patrolWayPoints;                     // An array of transforms for the patrol route.
@@ -49,7 +49,7 @@ public class Walking : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-		nav = GetComponent<NavMeshAgent>();
+		nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
         totalhealthpoints = healthpoints;
         brocolliMonster = GetComponent<GameObject>();
