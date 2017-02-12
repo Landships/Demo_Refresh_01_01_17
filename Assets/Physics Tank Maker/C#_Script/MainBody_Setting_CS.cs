@@ -40,7 +40,7 @@ public class MainBody_Setting_CS : MonoBehaviour {
 		This_Rigidbody.solverIterations = SIC ;
 		// Attach NavMeshObstacle for Bunker Tank.
 		if ( This_Rigidbody.isKinematic ) {
-			NavMeshObstacle Temp_NavMeshObstacle = gameObject.AddComponent < NavMeshObstacle > () ;
+			UnityEngine.AI.NavMeshObstacle Temp_NavMeshObstacle = gameObject.AddComponent < UnityEngine.AI.NavMeshObstacle > () ;
 			Temp_NavMeshObstacle.carvingMoveThreshold = 1.0f ;
 			Temp_NavMeshObstacle.carving = true ;
 		}

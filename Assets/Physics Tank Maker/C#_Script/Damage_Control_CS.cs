@@ -307,8 +307,8 @@ public class Damage_Control_CS : MonoBehaviour {
 		// Send Message to "Tank_ID_Control", "Sound_Control", Armor_Collider, "AI", "Drive_Control", "Steer_Wheel", "PT_ParkingBrake".
 		Parent_Transform.BroadcastMessage ( "MainBody_Linkage" , SendMessageOptions.DontRequireReceiver ) ;
 		// Add NavMeshObstacle.
-		if ( gameObject.GetComponent < NavMeshObstacle > () == null ) {
-			NavMeshObstacle Temp_NavMeshObstacle = gameObject.AddComponent < NavMeshObstacle > () ;
+		if ( gameObject.GetComponent < UnityEngine.AI.NavMeshObstacle > () == null ) {
+			UnityEngine.AI.NavMeshObstacle Temp_NavMeshObstacle = gameObject.AddComponent < UnityEngine.AI.NavMeshObstacle > () ;
 			Temp_NavMeshObstacle.carvingMoveThreshold = 1.0f ;
 			Temp_NavMeshObstacle.carving = true ;
 		}

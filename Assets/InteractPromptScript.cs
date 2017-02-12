@@ -79,7 +79,7 @@ public class InteractPromptScript : MonoBehaviour {
 
   IEnumerator TypeText (GameObject interactingObject, Text interactingGUI) {
     foreach (char letter in message.ToCharArray()) {
-      if (currentCollisions.IndexOf(interactingObject) == -1){ return true;}
+      if (currentCollisions.IndexOf(interactingObject) == -1){ yield return true;}
       interactingGUI.text = interactingGUI.text.Remove(interactingGUI.text.Length - 1);
       interactingGUI.text += letter;
       interactingGUI.text += "_";
