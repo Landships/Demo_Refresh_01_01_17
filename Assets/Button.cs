@@ -8,12 +8,13 @@
         public float limit;
         Vector3 upperLim;
         Vector3 lowerLim;
-        public SP_Turret_Controller_VR turret_controller;
+        public Fire_Controller turret_controller;
 
         public override void StartUsing(GameObject usingObject)
         {
             base.StartUsing(usingObject);
             this.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0f, -downForce, 0f), ForceMode.VelocityChange);
+            Debug.Log("firing?");
             turret_controller.OwnerFire();
         }
 

@@ -5,11 +5,10 @@ using System.Collections;
 /// THIS IS OWNED BY PLAYER 2/Client
 /// </summary>
 
-public class Turret_Controller_VR : MonoBehaviour 
+public class Turret_Controller_VR : Fire_Controller
 {
     public int designated_player;
     byte current_player; // owner = player 2
-
 
     // Client Queue
     int frame = 0;
@@ -105,7 +104,7 @@ public class Turret_Controller_VR : MonoBehaviour
         }
     }
 
-    public void OwnerFire()
+    override public void OwnerFire()
     {
         cannon_fire.Fire();
         n_manager_script.send_reliable_from_client(1, 1);

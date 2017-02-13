@@ -5,7 +5,7 @@ using System.Collections;
 /// THIS IS OWNED BY PLAYER 2/Client
 /// </summary>
 
-public class SP_Turret_Controller_VR : MonoBehaviour 
+public class SP_Turret_Controller_VR : Fire_Controller
 {
     //trigger
     public GameObject turret_objects;
@@ -38,7 +38,7 @@ public class SP_Turret_Controller_VR : MonoBehaviour
        Move_Turret();
    }
 
-    public void OwnerFire()
+    override public void OwnerFire()
     {
         cannon_fire.Fire();
     }
