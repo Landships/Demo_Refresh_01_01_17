@@ -3,7 +3,7 @@ using System.Collections;
 
 using UnityEngine.UI;
 
-[ RequireComponent ( typeof ( NavMeshAgent ) ) ]
+[ RequireComponent ( typeof ( UnityEngine.AI.NavMeshAgent ) ) ]
 
 public class AI_CS : MonoBehaviour {
 
@@ -57,7 +57,7 @@ public class AI_CS : MonoBehaviour {
 
 	Transform This_Transform ;
 	Transform Parent_Transform ;
-	NavMeshAgent This_Agent ;
+	UnityEngine.AI.NavMeshAgent This_Agent ;
 	Vector3 Initial_Position ;
 	Color Default_Text_Color ;
 	Vector3 [] WayPoints ;
@@ -101,7 +101,7 @@ public class AI_CS : MonoBehaviour {
 		}
 		// NavMeshAgent settings.
 		Initial_Position = This_Transform.localPosition ; // for fixing this object on its default position.
-		This_Agent = GetComponent < NavMeshAgent > () ;
+		This_Agent = GetComponent < UnityEngine.AI.NavMeshAgent > () ;
 		// Text settings.
 		if ( AI_State_Text ) {
 			if ( string.IsNullOrEmpty ( Tank_Name ) ) {
@@ -339,7 +339,7 @@ public class AI_CS : MonoBehaviour {
 
 	void WayPoint_Mode () {
 		// Check the Path Status.
-		if ( This_Agent.pathStatus == NavMeshPathStatus.PathInvalid ) {
+		if ( This_Agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid ) {
 			This_Agent.ResetPath () ;
 			This_Agent.SetDestination ( WayPoints [ Next_WayPoint_Num ] ) ;
 		}
@@ -485,7 +485,7 @@ public class AI_CS : MonoBehaviour {
 					GameObject Obstacle_Object = new GameObject ( "Obstacle_Object" ) ;
 					Obstacle_Object.transform.position = Hand_Script.transform.position ;
 					Obstacle_Object.transform.rotation = This_Transform.rotation * Quaternion.Euler ( 0.0f , 45.0f , 0.0f ) ;
-					NavMeshObstacle Temp_NavMeshObstacle = Obstacle_Object.AddComponent < NavMeshObstacle > () ;
+					UnityEngine.AI.NavMeshObstacle Temp_NavMeshObstacle = Obstacle_Object.AddComponent < UnityEngine.AI.NavMeshObstacle > () ;
 					Temp_NavMeshObstacle.carving = true ;
 					Obstacle_Object.AddComponent < Delete_Timer_CS > ().Count = 20.0f ;
 					Obstacle_Flag = true ;
