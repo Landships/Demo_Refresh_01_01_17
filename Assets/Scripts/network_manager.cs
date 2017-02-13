@@ -569,6 +569,8 @@ public class network_manager : MonoBehaviour
                 Buffer.BlockCopy(values, 0, client_to_server_data_large, 88, 4);
                 break;
             case 10: // Vertical Crank
+                Debug.Log("values: " + values.Length);
+                Debug.Log("client_to_server : " + client_to_server_data_large.Length);
                 Buffer.BlockCopy(values, 0, client_to_server_data_large, 92, 4);
                 break;
             case 11: // Horizontal Crank

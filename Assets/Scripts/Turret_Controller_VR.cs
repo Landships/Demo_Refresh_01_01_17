@@ -85,7 +85,8 @@ public class Turret_Controller_VR : Fire_Controller
                 client_send_values();
                 
             } 
-            else {
+            else if (n_manager_script.getServerPlayersAmt() == 2)
+            {
                 if (reliable_message)
                 {
                     if (n_manager_script.server_read_client_reliable_buffer(1) == 1)
