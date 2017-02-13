@@ -8,7 +8,7 @@
         public float limit;
         Vector3 upperLim;
         Vector3 lowerLim;
-        public Turret_Controller_VR turret_controller;
+        public SP_Turret_Controller_VR turret_controller;
 
         public override void StartUsing(GameObject usingObject)
         {
