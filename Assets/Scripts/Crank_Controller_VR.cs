@@ -77,7 +77,7 @@ public class Crank_Controller_VR : MonoBehaviour
                 client_send_values();
             }
 
-            else
+            else if ((n_manager_script.getServerPlayersAmt() == 2))
             {
                 server_get_client_crank_position();
             }
