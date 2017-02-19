@@ -77,7 +77,7 @@ public class Crank_Controller_VR : MonoBehaviour
                 client_send_values();
             }
 
-            else if ((n_manager_script.getServerPlayersAmt() == 2))
+            else
             {
                 server_get_client_crank_position();
             }
@@ -146,7 +146,7 @@ public class Crank_Controller_VR : MonoBehaviour
     {
         float[] vertical_crank_values = { vertical_crank.transform.localRotation.eulerAngles.x };
         float[] horizontal_crank_values = { horizontal_crank.transform.localRotation.eulerAngles.x };
-
+        Debug.Log("vertical crank values" + vertical_crank_values.Length.ToString());
         n_manager_script.send_from_client(10, vertical_crank_values);
         n_manager_script.send_from_client(11, horizontal_crank_values);
 

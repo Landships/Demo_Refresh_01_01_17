@@ -58,13 +58,13 @@ public class network_manager : MonoBehaviour
     public int size_of_server_buffer = 103;
     public int size_of_client_buffer = 100;
     // Client Buffers
-    public byte[] client_to_server_data_large = new byte[100];
-    public byte[] client_reliable_buffer = new byte[100];
+    static byte[] client_to_server_data_large = new byte[100];
+    static byte[] client_reliable_buffer = new byte[100];
     // Server Buffers
-    public byte[] server_to_client_data_large = new byte[103]; // this also stores the data for the client
-    public byte[] server_reliable_buffer = new byte[103];
-    public byte[] server_data_from_client = new byte[100];
-    public byte[] server_reliable_data_from_client = new byte[100];
+    static byte[] server_to_client_data_large = new byte[103]; // this also stores the data for the client
+    static byte[] server_reliable_buffer = new byte[103];
+    static byte[] server_data_from_client = new byte[100];
+    static byte[] server_reliable_data_from_client = new byte[100];
 
     int frame = 0;
 
@@ -569,8 +569,6 @@ public class network_manager : MonoBehaviour
                 Buffer.BlockCopy(values, 0, client_to_server_data_large, 88, 4);
                 break;
             case 10: // Vertical Crank
-                Debug.Log("values: " + values.Length);
-                Debug.Log("client_to_server : " + client_to_server_data_large.Length);
                 Buffer.BlockCopy(values, 0, client_to_server_data_large, 92, 4);
                 break;
             case 11: // Horizontal Crank
