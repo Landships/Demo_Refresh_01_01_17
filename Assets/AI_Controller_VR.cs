@@ -30,9 +30,9 @@ public class AI_Controller_VR : MonoBehaviour {
         n_manager = GameObject.Find("Custom Network Manager(Clone)");
         n_manager_script = n_manager.GetComponent<network_manager>();
         current_player = (byte)(n_manager_script.client_players_amount);
-        if (current_player != 2)
+        if (current_player == 1)
         {
-
+            transform.FindChild("AI_Core").GetComponent<AI_CS>().enabled = true;
         }
         BroadcastMessage("Set_Ai_Id", ai_id);
     }
