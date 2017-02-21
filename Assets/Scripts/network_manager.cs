@@ -1052,6 +1052,25 @@ public class network_manager : MonoBehaviour
                 Buffer.BlockCopy(client_reliable_data_from_server, 20, value, 0, 4);
                 break;
 
+
+            // AI Tank Fire
+            case 7: // AI Tank 1 Fire
+                Buffer.BlockCopy(client_reliable_data_from_server, 24, value, 0, 4);
+                break;
+            case 8: // AI Tank 2 Fire
+                Buffer.BlockCopy(client_reliable_data_from_server, 28, value, 0, 4);
+                break;
+            case 9: // AI Tank 3 Fire
+                Buffer.BlockCopy(client_reliable_data_from_server, 32, value, 0, 4);
+                break;
+            case 10: // AI Tank 4 Fire
+                Buffer.BlockCopy(client_reliable_data_from_server, 36, value, 0, 4);
+                break;
+
+
+
+
+
         }
 
         return value[0];
