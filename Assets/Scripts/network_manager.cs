@@ -55,14 +55,15 @@ public class network_manager : MonoBehaviour
 
     // Buffer Info
     // Sizes
-    public int size_of_server_buffer = 103;
+    public int size_of_server_buffer = 231;
     public int size_of_client_buffer = 100;
     // Client Buffers
     static byte[] client_to_server_data_large = new byte[100];
     static byte[] client_reliable_buffer = new byte[100];
+    static byte[] client_reliable_data_from_server = new byte[231];
     // Server Buffers
-    static byte[] server_to_client_data_large = new byte[103]; // this also stores the data for the client
-    static byte[] server_reliable_buffer = new byte[103];
+    static byte[] server_to_client_data_large = new byte[231]; // this also stores the data for the client
+    static byte[] server_reliable_buffer = new byte[231];
     static byte[] server_data_from_client = new byte[100];
     static byte[] server_reliable_data_from_client = new byte[100];
 
@@ -518,6 +519,18 @@ public class network_manager : MonoBehaviour
             case 11: // Horizontal Crank
                 Buffer.BlockCopy(values, 0, server_to_client_data_large, 99, 4);
                 break;
+            case 12:
+                Buffer.BlockCopy(values, 0, server_to_client_data_large, 103, 32);
+                break;
+            case 13:
+                Buffer.BlockCopy(values, 0, server_to_client_data_large, 135, 32);
+                break;
+            case 14:
+                Buffer.BlockCopy(values, 0, server_to_client_data_large, 167, 32);
+                break;
+            case 15:
+                Buffer.BlockCopy(values, 0, server_to_client_data_large, 199, 32);
+                break;
         }
 
         // NOW SEND
@@ -589,6 +602,7 @@ public class network_manager : MonoBehaviour
         int values_amount = 0;
         float[] values_3 = new float[3];
         float[] value = new float[1];
+        float[] value_ai = new float[32];
 
 
         switch (object_case) {
@@ -636,11 +650,29 @@ public class network_manager : MonoBehaviour
                 Buffer.BlockCopy(server_to_client_data_large, 99, value, 0, 4);
                 values_amount = 1;
                 break;
+            case 12:
+                Buffer.BlockCopy(server_to_client_data_large, 103, value_ai, 0, 32);
+                values_amount = 32;
+                break;
+            case 13:
+                Buffer.BlockCopy(server_to_client_data_large, 135, value_ai, 0, 32);
+                values_amount = 32;
+                break;
+            case 14:
+                Buffer.BlockCopy(server_to_client_data_large, 167, value_ai, 0, 32);
+                values_amount = 32;
+                break;
+            case 15:
+                Buffer.BlockCopy(server_to_client_data_large, 199, value_ai, 0, 32);
+                values_amount = 32;
+                break;
         }
-        if (values_amount == 1) {
-            return value;
-        } else {
-            return values_3;
+        switch(values_amount)
+        {
+            case 1: return value;
+            case 3: return values_3;
+            case 32: return value_ai;
+            default: return value;
         }
 
     }
@@ -735,10 +767,9 @@ public class network_manager : MonoBehaviour
         NetworkTransport.Send(client_socket_ID, client_connection, client_unreliable_channel, client_to_server_data_large, size_of_client_buffer, out error);
 
     }
-
+    
     public void server_send_reliable() {
         byte error;
-        server_reliable_buffer[0] = 1;
         NetworkTransport.Send(server_socket_ID, server_client_connection[1], server_reliable_channel, server_reliable_buffer, size_of_server_buffer, out error);
 
     }
@@ -787,6 +818,45 @@ public class network_manager : MonoBehaviour
         client_send_reliable();
     }
 
+    public void send_reliable_from_server(int object_case, float input)
+    {
+        //client_to_server_data_large;
+        //client_reliable_buffer;
+
+        float[] value = { input };
+        float[] clear_buffer = { 0.0f };
+
+        Buffer.BlockCopy(clear_buffer, 0, client_reliable_buffer, 0, 4);
+        Buffer.BlockCopy(clear_buffer, 0, client_reliable_buffer, 4, 4);
+        Buffer.BlockCopy(clear_buffer, 0, client_reliable_buffer, 8, 4);
+        Buffer.BlockCopy(clear_buffer, 0, client_reliable_buffer, 12, 4);
+        Buffer.BlockCopy(clear_buffer, 0, client_reliable_buffer, 16, 4);
+        Buffer.BlockCopy(clear_buffer, 0, client_reliable_buffer, 20, 4);
+
+        switch (object_case)
+        {
+            case 1: // Fired
+                Buffer.BlockCopy(value, 0, server_reliable_buffer, 0, 4);
+                break;
+            case 2: // Tank ID 1
+                Buffer.BlockCopy(value, 0, server_reliable_buffer, 4, 4);
+                break;
+            case 3: // Tank ID 2
+                Buffer.BlockCopy(value, 0, server_reliable_buffer, 8, 4);
+                break;
+            case 4: // Tank ID 3
+                Buffer.BlockCopy(value, 0, server_reliable_buffer, 12, 4);
+                break;
+            case 5: // Tank ID 4
+                Buffer.BlockCopy(value, 0, server_reliable_buffer, 16, 4);
+                break;
+            case 6: //player destroyed
+                Buffer.BlockCopy(value, 0, server_reliable_buffer, 20, 4);
+                break;
+        }
+
+        server_send_reliable();
+    }
 
 
 
@@ -881,9 +951,18 @@ public class network_manager : MonoBehaviour
             case NetworkEventType.ConnectEvent:
                 break;
             case NetworkEventType.DataEvent:
-                //Debug.Log(NetworkTransport.GetCurrentRtt(received_host_ID, client_connection, out error).ToString());
-                //Debug.Log("I am the client and I am getting a large message of size: " + data_size.ToString());
-                server_to_client_data_large = buffer;
+                if (received_channel_ID == server_reliable_channel)
+                {
+                    client_reliable_data_from_server = buffer;
+                    reliable_message = true;
+
+                }
+                else
+                {
+                    server_to_client_data_large = buffer;
+                    reliable_message = false;
+                }
+                
                 break;
         }
     }
@@ -924,14 +1003,48 @@ public class network_manager : MonoBehaviour
         return value[0];
     }
 
-   
+
+    public float client_read_server_reliable_buffer(int object_case)
+    {
+
+
+        float[] value = { 0.0f };
+
+
+        switch (object_case)
+        {
+            case 1: // Fired?
+                Buffer.BlockCopy(client_reliable_data_from_server, 0, value, 0, 4);
+                break;
+            case 2: // Tank ID 1
+                Buffer.BlockCopy(client_reliable_data_from_server, 4, value, 0, 4);
+                break;
+            case 3: // Tank ID 2
+                Buffer.BlockCopy(client_reliable_data_from_server, 8, value, 0, 4);
+                break;
+            case 4: // Tank ID 3
+                Buffer.BlockCopy(client_reliable_data_from_server, 12, value, 0, 4);
+                break;
+            case 5: // Tank ID 4
+                Buffer.BlockCopy(client_reliable_data_from_server, 16, value, 0, 4);
+                break;
+            case 6: // player tank destroyed
+                Buffer.BlockCopy(client_reliable_data_from_server, 20, value, 0, 4);
+                break;
+
+        }
+
+        return value[0];
+    }
 
 
 
 
- 
 
-  
+
+
+
+
 
 
 
