@@ -82,35 +82,35 @@ public class AI_Controller_VR : MonoBehaviour {
 
                 if (reliable_message)
                 {
-                    if (n_manager_script.server_read_client_reliable_buffer(2) == 1 && ai_id == 1)
+                    if (n_manager_script.client_read_server_reliable_buffer(2) == 1 && ai_id == 1)
                     {
                         transform.FindChild("Turret").GetComponent<Damage_Control_CS>().Penetration();
                     }
-                    if (n_manager_script.server_read_client_reliable_buffer(3) == 1 && ai_id == 2)
+                    if (n_manager_script.client_read_server_reliable_buffer(3) == 1 && ai_id == 2)
                     {
                         transform.FindChild("Turret").GetComponent<Damage_Control_CS>().Penetration();
                     }
-                    if (n_manager_script.server_read_client_reliable_buffer(4) == 1 && ai_id == 3)
+                    if (n_manager_script.client_read_server_reliable_buffer(4) == 1 && ai_id == 3)
                     {
                         transform.FindChild("Turret").GetComponent<Damage_Control_CS>().Penetration();
                     }
-                    if (n_manager_script.server_read_client_reliable_buffer(5) == 1 && ai_id == 4)
+                    if (n_manager_script.client_read_server_reliable_buffer(5) == 1 && ai_id == 4)
                     {
                         transform.FindChild("Turret").GetComponent<Damage_Control_CS>().Penetration();
                     }
-                    if (n_manager_script.server_read_client_reliable_buffer(7) == 1 && ai_id == 1)
+                    if (n_manager_script.client_read_server_reliable_buffer(7) == 1 && ai_id == 1)
                     {
                         cannon_fire.Fire();
                     }
-                    if (n_manager_script.server_read_client_reliable_buffer(8) == 1 && ai_id == 2)
+                    if (n_manager_script.client_read_server_reliable_buffer(8) == 1 && ai_id == 2)
                     {
                         cannon_fire.Fire();
                     }
-                    if (n_manager_script.server_read_client_reliable_buffer(9) == 1 && ai_id == 3)
+                    if (n_manager_script.client_read_server_reliable_buffer(9) == 1 && ai_id == 3)
                     {
                         cannon_fire.Fire();
                     }
-                    if (n_manager_script.server_read_client_reliable_buffer(10) == 1 && ai_id == 4)
+                    if (n_manager_script.client_read_server_reliable_buffer(10) == 1 && ai_id == 4)
                     {
                         cannon_fire.Fire();
                     }
