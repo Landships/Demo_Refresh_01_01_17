@@ -62,8 +62,8 @@ public class network_manager : MonoBehaviour
     static byte[] client_reliable_buffer = new byte[100];
     static byte[] client_reliable_data_from_server = new byte[231];
     // Server Buffers
-    static byte[] server_to_client_data_large = new byte[231]; // this also stores the data for the client
-    static byte[] server_reliable_buffer = new byte[231];
+    static byte[] server_to_client_data_large = new byte[263]; // this also stores the data for the client
+    static byte[] server_reliable_buffer = new byte[263];
     static byte[] server_data_from_client = new byte[100];
     static byte[] server_reliable_data_from_client = new byte[100];
 
@@ -519,17 +519,17 @@ public class network_manager : MonoBehaviour
             case 11: // Horizontal Crank
                 Buffer.BlockCopy(values, 0, server_to_client_data_large, 99, 4);
                 break;
-            case 12:
-                Buffer.BlockCopy(values, 0, server_to_client_data_large, 103, 32);
+            case 12: // AI Tank 1
+                Buffer.BlockCopy(values, 0, server_to_client_data_large, 103, 40);
                 break;
-            case 13:
-                Buffer.BlockCopy(values, 0, server_to_client_data_large, 135, 32);
+            case 13: // AI Tank 2
+                Buffer.BlockCopy(values, 0, server_to_client_data_large, 143, 40);
                 break;
-            case 14:
-                Buffer.BlockCopy(values, 0, server_to_client_data_large, 167, 32);
+            case 14: // AI Tank 3
+                Buffer.BlockCopy(values, 0, server_to_client_data_large, 183, 40);
                 break;
-            case 15:
-                Buffer.BlockCopy(values, 0, server_to_client_data_large, 199, 32);
+            case 15: // AI Tank 4
+                Buffer.BlockCopy(values, 0, server_to_client_data_large, 223, 40);
                 break;
         }
 
@@ -650,20 +650,20 @@ public class network_manager : MonoBehaviour
                 Buffer.BlockCopy(server_to_client_data_large, 99, value, 0, 4);
                 values_amount = 1;
                 break;
-            case 12:
-                Buffer.BlockCopy(server_to_client_data_large, 103, value_ai, 0, 32);
+            case 12: // AI Tank 1
+                Buffer.BlockCopy(server_to_client_data_large, 103, value_ai, 0, 40);
                 values_amount = 32;
                 break;
-            case 13:
-                Buffer.BlockCopy(server_to_client_data_large, 135, value_ai, 0, 32);
+            case 13: // AI Tank 2
+                Buffer.BlockCopy(server_to_client_data_large, 143, value_ai, 0, 40);
                 values_amount = 32;
                 break;
-            case 14:
-                Buffer.BlockCopy(server_to_client_data_large, 167, value_ai, 0, 32);
+            case 14: // AI Tank 3
+                Buffer.BlockCopy(server_to_client_data_large, 183, value_ai, 0, 40);
                 values_amount = 32;
                 break;
-            case 15:
-                Buffer.BlockCopy(server_to_client_data_large, 199, value_ai, 0, 32);
+            case 15: // AI Tank 4
+                Buffer.BlockCopy(server_to_client_data_large, 223, value_ai, 0, 40);
                 values_amount = 32;
                 break;
         }
