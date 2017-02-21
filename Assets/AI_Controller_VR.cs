@@ -22,7 +22,7 @@ public class AI_Controller_VR : MonoBehaviour {
 
 
     GameObject turret_object;
-    GameObject cannon_base;
+    public GameObject cannon_base;
     GameObject turret_base;
 
     // Network Values
@@ -38,21 +38,26 @@ public class AI_Controller_VR : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        turret_object = transform.FindChild("Turret_Objects").gameObject;
-        cannon_base = transform.FindChild("Cannon_Base").gameObject;
-        turret_base = GetComponentInChildren<Turret_Horizontal_CS>().gameObject;
+        
     }
 
 
 
     public void Prep()
     {
+        turret_object = transform.FindChild("Turret_Objects").gameObject;
+        turret_base = GetComponentInChildren<Turret_Horizontal_CS>().gameObject;
         n_manager = GameObject.Find("Custom Network Manager(Clone)");
         n_manager_script = n_manager.GetComponent<network_manager>();
         current_player = (byte)(n_manager_script.client_players_amount);
         if (current_player == 1)
         {
             transform.FindChild("AI_Core").GetComponent<AI_CS>().enabled = true;
+            
+        }
+        else
+        {
+            GetComponent<Drive_Control_CS>().enabled = false;
         }
         BroadcastMessage("Set_Ai_Id", ai_id);
     }

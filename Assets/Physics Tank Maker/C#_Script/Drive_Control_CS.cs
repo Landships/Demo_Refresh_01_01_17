@@ -68,6 +68,7 @@ public class Drive_Control_CS : MonoBehaviour
 
     public float L;
     public float R;
+    bool prep = false;
 
     void Start()
     {
@@ -80,6 +81,11 @@ public class Drive_Control_CS : MonoBehaviour
         }
         BroadcastMessage("Get_Drive_Control", this, SendMessageOptions.DontRequireReceiver);
         MainBody_Rigidbody = GetComponent<Rigidbody>();
+    }
+
+    void Prep()
+    {
+        prep = true;
     }
 
     void Update()
@@ -107,7 +113,8 @@ public class Drive_Control_CS : MonoBehaviour
                     Mouse_Input_Easy();
                     break;
                 case 10:
-                    AI_Input();
+                    if (prep)
+                        AI_Input();
                     break;
                 case 8:
                     Lever_Input();

@@ -602,6 +602,7 @@ public class network_manager : MonoBehaviour
         int values_amount = 0;
         float[] values_3 = new float[3];
         float[] value = new float[1];
+        float[] value_ai = new float[32];
 
 
         switch (object_case) {
@@ -649,11 +650,29 @@ public class network_manager : MonoBehaviour
                 Buffer.BlockCopy(server_to_client_data_large, 99, value, 0, 4);
                 values_amount = 1;
                 break;
+            case 12:
+                Buffer.BlockCopy(server_to_client_data_large, 103, value_ai, 0, 32);
+                values_amount = 32;
+                break;
+            case 13:
+                Buffer.BlockCopy(server_to_client_data_large, 135, value_ai, 0, 32);
+                values_amount = 32;
+                break;
+            case 14:
+                Buffer.BlockCopy(server_to_client_data_large, 167, value_ai, 0, 32);
+                values_amount = 32;
+                break;
+            case 15:
+                Buffer.BlockCopy(server_to_client_data_large, 199, value_ai, 0, 32);
+                values_amount = 32;
+                break;
         }
-        if (values_amount == 1) {
-            return value;
-        } else {
-            return values_3;
+        switch(values_amount)
+        {
+            case 1: return value;
+            case 3: return values_3;
+            case 32: return value_ai;
+            default: return value;
         }
 
     }
