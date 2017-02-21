@@ -97,7 +97,23 @@ public class AI_Controller_VR : MonoBehaviour {
                     {
                         transform.FindChild("Turret").GetComponent<Damage_Control_CS>().Penetration();
                     }
-                }
+                    if (n_manager_script.server_read_client_reliable_buffer(7) == 1 && ai_id == 1)
+                    {
+                        cannon_fire.Fire();
+                    }
+                    if (n_manager_script.server_read_client_reliable_buffer(8) == 1 && ai_id == 2)
+                    {
+                        cannon_fire.Fire();
+                    }
+                    if (n_manager_script.server_read_client_reliable_buffer(9) == 1 && ai_id == 3)
+                    {
+                        cannon_fire.Fire();
+                    }
+                    if (n_manager_script.server_read_client_reliable_buffer(10) == 1 && ai_id == 4)
+                    {
+                        cannon_fire.Fire();
+                    }
+            }
 
 
 
@@ -126,7 +142,13 @@ public class AI_Controller_VR : MonoBehaviour {
 
     }
 
-
+    public void OwnerFire()
+    {
+        cannon_fire.Fire();
+        n_manager_script.send_reliable_from_client(6 + ai_id, 1);
+        Debug.Log("Emit Fire");
+    }
+    
 
 
     void update_world_state()

@@ -42,6 +42,7 @@ public class Cannon_Vertical_CS : MonoBehaviour
     Bullet_Generator_CS Bullet_Generator_Script;
     Cannon_Fire_CS Cannon_Fire_Script;
     AI_CS AI_Script;
+    AI_Controller_VR ai_controller;
 
     void Start()
     { // Turret's objects are sorted at the opening.
@@ -56,6 +57,7 @@ public class Cannon_Vertical_CS : MonoBehaviour
         Grabity = Physics.gravity.y;
         Turret_Horizontal_Script = transform.parent.GetComponent<Turret_Horizontal_CS>();
         Cannon_Fire_Script = GetComponent<Cannon_Fire_CS>();
+        ai_controller = transform.parent.parent.GetComponent<AI_Controller_VR>();
     }
 
     void Update()
@@ -345,7 +347,9 @@ public class Cannon_Vertical_CS : MonoBehaviour
                 Cannon_Count += Time.fixedDeltaTime;
                 if (Cannon_Count > AI_Script.Fire_Count && Cannon_Fire_Script.Reload_Flag)
                 { // Cannon_Count is over, and Reload is finished.
-                    This_Transform.SendMessage("Fire", SendMessageOptions.DontRequireReceiver); // Send message to "Cannon_Fire".
+                    //This_Transform.SendMessage("Fire", SendMessageOptions.DontRequireReceiver); // Send message to "Cannon_Fire".
+                    //call reliable fire
+                    ai_controller.OwnerFire();
                     Cannon_Count = 0.0f;
                     Wait_Count = 0.0f;
                     Random_Offset();
