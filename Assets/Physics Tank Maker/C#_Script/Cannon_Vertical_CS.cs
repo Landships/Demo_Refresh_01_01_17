@@ -42,7 +42,7 @@ public class Cannon_Vertical_CS : MonoBehaviour
     Bullet_Generator_CS Bullet_Generator_Script;
     Cannon_Fire_CS Cannon_Fire_Script;
     AI_CS AI_Script;
-    AI_Controller_VR ai_controller;
+    public AI_Controller_VR ai_controller;
 
     void Start()
     { // Turret's objects are sorted at the opening.
@@ -57,7 +57,6 @@ public class Cannon_Vertical_CS : MonoBehaviour
         Grabity = Physics.gravity.y;
         Turret_Horizontal_Script = transform.parent.GetComponent<Turret_Horizontal_CS>();
         Cannon_Fire_Script = GetComponent<Cannon_Fire_CS>();
-        ai_controller = transform.parent.parent.GetComponent<AI_Controller_VR>();
     }
 
     void Update()

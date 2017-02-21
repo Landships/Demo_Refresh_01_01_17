@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor ;
-
+/*
 [ CustomEditor ( typeof ( Cannon_Vertical_CS ) ) ]
 
 public class Cannon_Vertical_CSEditor : Editor {
@@ -51,4 +51,4 @@ public class Cannon_Vertical_CSEditor : Editor {
 		serializedObject.ApplyModifiedProperties ();
 	}
 	
-}
+}*/

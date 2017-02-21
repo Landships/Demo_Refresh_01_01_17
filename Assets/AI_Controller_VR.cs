@@ -56,6 +56,7 @@ public class AI_Controller_VR : MonoBehaviour {
         n_manager_script = n_manager.GetComponent<network_manager>();
         current_player = (byte)(n_manager_script.client_players_amount);
         drive_control = GetComponent<Drive_Control_CS>();
+        cannon_fire = cannon_base.GetComponent<Cannon_Fire_CS>();
         if (current_player == 1)
         {
             transform.FindChild("AI_Core").GetComponent<AI_CS>().enabled = true;
