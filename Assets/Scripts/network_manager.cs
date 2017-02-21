@@ -832,6 +832,10 @@ public class network_manager : MonoBehaviour
         Buffer.BlockCopy(clear_buffer, 0, client_reliable_buffer, 12, 4);
         Buffer.BlockCopy(clear_buffer, 0, client_reliable_buffer, 16, 4);
         Buffer.BlockCopy(clear_buffer, 0, client_reliable_buffer, 20, 4);
+        Buffer.BlockCopy(clear_buffer, 0, client_reliable_buffer, 24, 4);
+        Buffer.BlockCopy(clear_buffer, 0, client_reliable_buffer, 28, 4);
+        Buffer.BlockCopy(clear_buffer, 0, client_reliable_buffer, 32, 4);
+        Buffer.BlockCopy(clear_buffer, 0, client_reliable_buffer, 36, 4);
 
         switch (object_case)
         {
@@ -970,6 +974,7 @@ public class network_manager : MonoBehaviour
                 {
                     client_reliable_data_from_server = buffer;
                     reliable_message = true;
+                    Debug.Log("Reliable received");
 
                 }
                 else
