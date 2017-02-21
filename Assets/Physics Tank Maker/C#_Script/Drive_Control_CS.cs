@@ -37,8 +37,8 @@ public class Drive_Control_CS : MonoBehaviour
     public bool Stop_Flag = true;
 
     int Turn_Type = 0;
-    float Vertical;
-    float Horizontal;
+    public float Vertical;
+    public float Horizontal;
 
     int Speed_Step;
     public float Left_Speed_Step;
@@ -807,8 +807,8 @@ public class Drive_Control_CS : MonoBehaviour
 
     void AI_Input()
     {
-        Vertical = AI_Script.Speed_Order;
-        Horizontal = AI_Script.Turn_Order;
+        //Vertical = AI_Script.Speed_Order;
+        //Horizontal = AI_Script.Turn_Order;
         if (Vertical == 0.0f && Horizontal == 0.0f)
         {
             Stop_Flag = true;

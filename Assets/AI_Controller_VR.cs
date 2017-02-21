@@ -9,6 +9,8 @@ public class AI_Controller_VR : MonoBehaviour {
     GameObject n_manager;
     network_manager n_manager_script;
     Cannon_Fire_CS cannon_fire;
+    AI_CS ai_script;
+    Drive_Control_CS drive_control;
 
     bool started = false;
     bool ready = false;
@@ -34,6 +36,9 @@ public class AI_Controller_VR : MonoBehaviour {
     float rot_z;
     float turret_base_rotation_y;
     float cannon_base_rotation_x;
+    float vertical_input;
+    float horizontal_input;
+
 
     // Use this for initialization
     void Start()
@@ -50,14 +55,12 @@ public class AI_Controller_VR : MonoBehaviour {
         n_manager = GameObject.Find("Custom Network Manager(Clone)");
         n_manager_script = n_manager.GetComponent<network_manager>();
         current_player = (byte)(n_manager_script.client_players_amount);
+        drive_control = GetComponent<Drive_Control_CS>();
         if (current_player == 1)
         {
             transform.FindChild("AI_Core").GetComponent<AI_CS>().enabled = true;
+            ai_script = transform.Find("AI_Core").GetComponent<AI_CS>();
             
-        }
-        else
-        {
-            GetComponent<Drive_Control_CS>().enabled = false;
         }
         BroadcastMessage("Set_Ai_Id", ai_id);
     }
@@ -128,12 +131,13 @@ public class AI_Controller_VR : MonoBehaviour {
 
     void update_world_state()
     {
-        // Client
+        // Server
         if (current_player == 1)
         {
-
+            drive_control.Vertical = ai_script.Speed_Order;
+            drive_control.Horizontal = ai_script.Turn_Order;
         }
-        // Server
+        // Client
         else
         {
             this.transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(pos_x, pos_y, pos_z), 0.1f);
@@ -147,8 +151,10 @@ public class AI_Controller_VR : MonoBehaviour {
             }
             cannon_base.transform.localRotation = Quaternion.Lerp(cannon_base.transform.localRotation, Quaternion.Euler(cannon_base_rotation_x, 0, 0), 0.1f);
             //cannon_base.transform.localRotation = Quaternion.Euler(cannon_base_rotation_x, 0, 0);
+            drive_control.Vertical = vertical_input;
+            drive_control.Horizontal = horizontal_input;
 
-        
+
 
         }
 
@@ -171,8 +177,9 @@ public class AI_Controller_VR : MonoBehaviour {
                                transform.localRotation.eulerAngles.y,
                                transform.localRotation.eulerAngles.z,
                                turret_base.transform.localEulerAngles.y,
-                               cannon_base.transform.localEulerAngles.x
-
+                               cannon_base.transform.localEulerAngles.x,
+                               ai_script.Speed_Order,
+                               ai_script.Turn_Order
                              };
 
        
@@ -195,6 +202,8 @@ public class AI_Controller_VR : MonoBehaviour {
         rot_z = all_values[5];
         turret_base_rotation_y = all_values[6];
         cannon_base_rotation_x = all_values[7];
+        vertical_input = all_values[8];
+        horizontal_input = all_values[9];
 
     }
 
