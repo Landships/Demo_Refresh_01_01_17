@@ -139,14 +139,14 @@ public class AI_Controller_VR : MonoBehaviour {
     public void Alert_Turret_Penetration(int id)
     {
         transform.FindChild("Turret").GetComponent<Damage_Control_CS>().Penetration();
-        n_manager_script.send_reliable_from_client(ai_id + 1, 1);
+        n_manager_script.send_reliable_from_server(ai_id + 1, 1);
 
     }
 
     public void OwnerFire()
     {
         cannon_fire.Fire();
-        n_manager_script.send_reliable_from_client(6 + ai_id, 1);
+        n_manager_script.send_reliable_from_server(6 + ai_id, 1);
         Debug.Log("Emit Fire");
     }
     
