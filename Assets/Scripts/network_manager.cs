@@ -55,12 +55,12 @@ public class network_manager : MonoBehaviour
 
     // Buffer Info
     // Sizes
-    public int size_of_server_buffer = 231;
+    public int size_of_server_buffer = 263;
     public int size_of_client_buffer = 100;
     // Client Buffers
     static byte[] client_to_server_data_large = new byte[100];
     static byte[] client_reliable_buffer = new byte[100];
-    static byte[] client_reliable_data_from_server = new byte[231];
+    static byte[] client_reliable_data_from_server = new byte[263];
     // Server Buffers
     static byte[] server_to_client_data_large = new byte[263]; // this also stores the data for the client
     static byte[] server_reliable_buffer = new byte[263];
