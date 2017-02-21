@@ -853,6 +853,21 @@ public class network_manager : MonoBehaviour
             case 6: //player destroyed
                 Buffer.BlockCopy(value, 0, server_reliable_buffer, 20, 4);
                 break;
+
+            // AI Tank Fire
+            case 7: // AI Tank 1 Fire
+                Buffer.BlockCopy(value, 0, server_reliable_buffer, 24, 4);
+                break;
+            case 8: // AI Tank 2 Fire
+                Buffer.BlockCopy(value, 0, server_reliable_buffer, 28, 4);
+                break;
+            case 9: // AI Tank 3 Fire
+                Buffer.BlockCopy(value, 0, server_reliable_buffer, 32, 4);
+                break;
+            case 10: // AI Tank 4 Fire
+                Buffer.BlockCopy(value, 0, server_reliable_buffer, 36, 4);
+                break;
+
         }
 
         server_send_reliable();
