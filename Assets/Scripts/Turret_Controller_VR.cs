@@ -81,27 +81,28 @@ public class Turret_Controller_VR : Fire_Controller
             reliable_message = n_manager_script.reliable_message;
 
             if (current_player == designated_player) {
-                Move_Turret();
-                client_send_values();
-                
-            } 
-            else 
-            {
                 if (reliable_message)
                 {
+                    Debug.Log("reliable message in turret_controller");
                     if (n_manager_script.client_read_server_reliable_buffer(1) == 1)
                     {
+                        Debug.Log("player tank receive fire");
                         cannon_fire.Fire();
                     }
                     if (n_manager_script.client_read_server_reliable_buffer(6) == 1)
                     {
+                        Debug.Log("player tank receive penetration");
                         turret.GetComponent<Damage_Control_CS>().Penetration();
                     }
                 }
+                Move_Turret();
+                client_send_values();
+                
+            }
+            else
+            {
                 server_get_client_hands();
             }
-
-
         }
     }
 
