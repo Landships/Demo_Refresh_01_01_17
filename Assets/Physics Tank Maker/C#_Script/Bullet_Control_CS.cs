@@ -19,9 +19,6 @@ public class Bullet_Control_CS : MonoBehaviour
 
     bool Live_Flag = true;
     int RayCast_Switch = 0;
-
-    public int current_player;
-
     Vector3 Next_Position;
     GameObject Hit_Object;
     Vector3 Hit_Normal;
@@ -106,7 +103,7 @@ public class Bullet_Control_CS : MonoBehaviour
                     }
                     // Calculate Hit_Energy.
                     float Hit_Angle = Mathf.Abs(90.0f - Vector3.Angle(This_Rigidbody.velocity, Temp_Normal));
-                    float Hit_Energy = 0.5f * This_Rigidbody.mass * Mathf.Pow(This_Rigidbody.velocity.magnitude, 2);
+                    float Hit_Energy = 500f * This_Rigidbody.mass * Mathf.Pow(This_Rigidbody.velocity.magnitude, 2);
                     Hit_Energy *= Mathf.Lerp(0.0f, 1.0f, Mathf.Sqrt(Hit_Angle / 90.0f));
                     Hit_Energy *= Attack_Multiplier;
                     // Output for debug.
@@ -114,14 +111,6 @@ public class Bullet_Control_CS : MonoBehaviour
                     {
                         Debug.Log("AP Damage " + Hit_Energy + " on " + Temp_Object.name);
                     }
-                    //This makes server projectile a dummy. Do hit detection on player 2.
-                    // Send 'Hit_Energy' to "Damage_Control" script.
-                    /*if (current_player == 1)
-                    {
-                        Destroy(this.gameObject);
-                        return;
-                    }*/
-
                     if (Temp_Script.Breaker(Hit_Energy))
                     {
                         Destroy(this.gameObject);

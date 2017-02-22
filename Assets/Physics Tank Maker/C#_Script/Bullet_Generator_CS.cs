@@ -54,9 +54,6 @@ public class Bullet_Generator_CS : MonoBehaviour
     int Tank_ID;
     int Input_Type = 4;
 
-    int current_player = 0;
-
-
     void Start()
     {
         Tank_ID_Control_CS Top_Script = GetComponentInParent<Tank_ID_Control_CS>();
@@ -68,11 +65,6 @@ public class Bullet_Generator_CS : MonoBehaviour
         This_Transform = transform;
         // Send message (this GameObject) to "Cannon_Vertical".
         transform.parent.parent.SendMessage("Get_Bullet_Generator", this.gameObject, SendMessageOptions.DontRequireReceiver);
-    }
-
-    void Set_Current_Player(int player_id)
-    {
-        current_player = player_id;
     }
 
     void Update()
@@ -153,7 +145,6 @@ public class Bullet_Generator_CS : MonoBehaviour
         Temp_Script.Set_AP_Value(Delete_Time, Impact_Object, Ricochet_Object);
         Temp_Script.Attack_Multiplier = Attack_Multiplier;
         Temp_Script.Set_Debug_Mode(Debug_Flag);
-        Temp_Script.current_player = current_player;
         // Shoot
         Temp_Rigidbody.velocity = Bullet_Object.transform.forward * Bullet_Force;
     }

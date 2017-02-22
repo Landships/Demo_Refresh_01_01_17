@@ -82,21 +82,21 @@ public class AI_Controller_VR : MonoBehaviour {
 
                 if (reliable_message)
                 {
-                    if (n_manager_script.client_read_server_reliable_buffer(2) == 1 && ai_id == 1)
+                    if (n_manager_script.client_read_server_reliable_buffer(2) != 0 && ai_id == 1)
                     {
-                        transform.FindChild("Turret").GetComponent<Damage_Control_CS>().Penetration();
+                        BroadcastMessage("Alert", n_manager_script.client_read_server_reliable_buffer(2));
                     }
-                    if (n_manager_script.client_read_server_reliable_buffer(3) == 1 && ai_id == 2)
+                    if (n_manager_script.client_read_server_reliable_buffer(3) != 0 && ai_id == 2)
                     {
-                        transform.FindChild("Turret").GetComponent<Damage_Control_CS>().Penetration();
+                        BroadcastMessage("Alert", n_manager_script.client_read_server_reliable_buffer(3));
                     }
-                    if (n_manager_script.client_read_server_reliable_buffer(4) == 1 && ai_id == 3)
+                    if (n_manager_script.client_read_server_reliable_buffer(4) != 0 && ai_id == 3)
                     {
-                        transform.FindChild("Turret").GetComponent<Damage_Control_CS>().Penetration();
+                        BroadcastMessage("Alert", n_manager_script.client_read_server_reliable_buffer(4));
                     }
-                    if (n_manager_script.client_read_server_reliable_buffer(5) == 1 && ai_id == 4)
+                    if (n_manager_script.client_read_server_reliable_buffer(5) != 0 && ai_id == 4)
                     {
-                        transform.FindChild("Turret").GetComponent<Damage_Control_CS>().Penetration();
+                        BroadcastMessage("Alert", n_manager_script.client_read_server_reliable_buffer(5));
                     }
                     if (n_manager_script.client_read_server_reliable_buffer(7) == 1 && ai_id == 1)
                     {
@@ -136,12 +136,13 @@ public class AI_Controller_VR : MonoBehaviour {
     }
 
 
-    public void Alert_Turret_Penetration(int id)
+    public void Alert_Penetration(int id, int Type)
     {
         if (current_player == 2)
             return;
-        transform.FindChild("Turret").GetComponent<Damage_Control_CS>().Penetration();
-        n_manager_script.send_reliable_from_server(ai_id + 1, 1);
+        //transform.FindChild("Turret").GetComponent<Damage_Control_CS>().Penetration();
+        BroadcastMessage("Alert", Type);
+        n_manager_script.send_reliable_from_server(ai_id + 1, Type);
 
     }
 

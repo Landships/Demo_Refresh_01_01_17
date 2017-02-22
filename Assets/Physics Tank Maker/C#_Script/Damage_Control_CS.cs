@@ -37,6 +37,14 @@ public class Damage_Control_CS : MonoBehaviour {
         ai_id = id;
     }
 
+    void Alert(int type)
+    {
+        if (type == Type)
+        {
+            Penetration();
+        }
+    }
+
     void Start (){
 		switch ( Type ) {
 		case 1 : // Armor_Collider
@@ -110,27 +118,24 @@ public class Damage_Control_CS : MonoBehaviour {
 		}
 	}
 
-	public bool Breaker ( float Hit_Energy ) { //only called on current_player == 2
-        Debug.Log("is this hitting?");
-		lives.loseLife ();
-		if (lives.getLives () <= 0) {
-			//Penetration ();
-            
+	public bool Breaker ( float Hit_Energy ) { 
+        Debug.Log("is this hitting? Hit = " + Hit_Energy + " Durability = " + Durability + "ai id = " + ai_id);
+        if (Hit_Energy >= Durability)
+        {
+            Debug.Log("PENETRATION");
             if (ai_id == 0) // own tank
-                transform.root.GetChild(0).GetComponent<Turret_Controller_VR>().Alert_Turret_Penetration();
+            {
+                Debug.Log("Player Penetration");
+                transform.root.GetChild(0).GetComponent<Turret_Controller_VR>().Alert_Penetration(Type);
+            }
             else // ai on authority
-                transform.root.GetChild(0).GetComponent<AI_Controller_VR>().Alert_Turret_Penetration(ai_id);
-            
-			return true;
-		}
-		else if (lives.getLives () <= 1) {
-			//Trouble ();
-    
+                transform.root.GetChild(0).GetComponent<AI_Controller_VR>().Alert_Penetration(ai_id, Type);
+
+            return true;
+        }
+        else {
             return false;
-		}
-		else {
-			return false;
-		}
+        }
 		/*
 		if ( Hit_Energy >= Durability ) {
             Penetration();

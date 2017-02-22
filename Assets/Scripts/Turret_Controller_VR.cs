@@ -58,7 +58,6 @@ public class Turret_Controller_VR : Fire_Controller
             button.GetComponent<VRTK.Button>().enabled = false;
             turret_horizontal.enabled = false;
         }
-        BroadcastMessage("Set_Current_Player", current_player);
     }
 
     void Start() {
@@ -83,10 +82,10 @@ public class Turret_Controller_VR : Fire_Controller
             if (current_player == designated_player) {
                 if (reliable_message)
                 {
-                    if (n_manager_script.client_read_server_reliable_buffer(6) == 1)
+                    if (n_manager_script.client_read_server_reliable_buffer(6) != 0)
                     {
                         Debug.Log("player tank receive penetration");
-                        turret.GetComponent<Damage_Control_CS>().Penetration();
+                        BroadcastMessage("Alert", n_manager_script.client_read_server_reliable_buffer(6));
                     }
                 }
                 Move_Turret();
@@ -119,13 +118,13 @@ public class Turret_Controller_VR : Fire_Controller
     }
 
 
-    public void Alert_Turret_Penetration()
+    public void Alert_Penetration(int Type)
     {
         if (current_player == 2)
             return;
-        //turret.GetComponent<Damage_Control_CS>().Penetration();
-        //n_manager_script.send_reliable_from_server(6, 1);
-        Debug.Log("Alert Turret Penetration");
+        BroadcastMessage("Alert", Type);
+        n_manager_script.send_reliable_from_server(6, Type);
+        Debug.Log("Alert Penetration, type = " + Type);
         //reliable
     }
 
