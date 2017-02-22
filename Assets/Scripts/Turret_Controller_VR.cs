@@ -108,7 +108,7 @@ public class Turret_Controller_VR : Fire_Controller
     override public void OwnerFire()
     {
         cannon_fire.Fire();
-        n_manager_script.send_reliable_from_client(1, 1);
+        n_manager_script.send_reliable_from_server(1, 1);
         Debug.Log("Emit Fire");
     }
 
@@ -116,7 +116,7 @@ public class Turret_Controller_VR : Fire_Controller
     public void Alert_Turret_Penetration()
     {
         turret.GetComponent<Damage_Control_CS>().Penetration();
-        n_manager_script.send_reliable_from_client(6, 1);
+        n_manager_script.send_reliable_from_server(6, 1);
 
         //reliable
     }
