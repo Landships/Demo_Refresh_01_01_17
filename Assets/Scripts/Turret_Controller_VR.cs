@@ -84,7 +84,7 @@ public class Turret_Controller_VR : Fire_Controller
                 if (reliable_message)
                 {
                     Debug.Log("reliable message in turret_controller");
-                    if (n_manager_script.client_read_server_reliable_buffer(1) == 1)
+                    if (n_manager_script.server_read_client_reliable_buffer(1) == 1)
                     {
                         Debug.Log("player tank receive fire");
                         cannon_fire.Fire();
@@ -108,8 +108,10 @@ public class Turret_Controller_VR : Fire_Controller
 
     override public void OwnerFire()
     {
+        if (current_player != designated_player)
+            return;
         cannon_fire.Fire();
-        n_manager_script.send_reliable_from_server(1, 1);
+        n_manager_script.send_reliable_from_client(1, 1);
         Debug.Log("Emit Fire");
     }
 
@@ -118,8 +120,8 @@ public class Turret_Controller_VR : Fire_Controller
     {
         if (current_player == 2)
             return;
-        turret.GetComponent<Damage_Control_CS>().Penetration();
-        n_manager_script.send_reliable_from_server(6, 1);
+        //turret.GetComponent<Damage_Control_CS>().Penetration();
+        //n_manager_script.send_reliable_from_server(6, 1);
         Debug.Log("Alert Turret Penetration");
         //reliable
     }
