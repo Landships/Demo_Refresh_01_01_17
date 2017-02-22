@@ -138,6 +138,8 @@ public class AI_Controller_VR : MonoBehaviour {
 
     public void Alert_Turret_Penetration(int id)
     {
+        if (current_player == 2)
+            return;
         transform.FindChild("Turret").GetComponent<Damage_Control_CS>().Penetration();
         n_manager_script.send_reliable_from_server(ai_id + 1, 1);
 

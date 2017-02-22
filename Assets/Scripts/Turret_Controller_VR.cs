@@ -115,9 +115,11 @@ public class Turret_Controller_VR : Fire_Controller
 
     public void Alert_Turret_Penetration()
     {
+        if (current_player == 2)
+            return;
         turret.GetComponent<Damage_Control_CS>().Penetration();
         n_manager_script.send_reliable_from_server(6, 1);
-
+        Debug.Log("Alert Turret Penetration");
         //reliable
     }
 
