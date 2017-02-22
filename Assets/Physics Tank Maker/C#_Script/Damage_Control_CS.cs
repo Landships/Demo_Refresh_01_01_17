@@ -114,12 +114,12 @@ public class Damage_Control_CS : MonoBehaviour {
         Debug.Log("is this hitting?");
 		lives.loseLife ();
 		if (lives.getLives () <= 0) {
-			Penetration ();
-            /*
+			//Penetration ();
+            
             if (ai_id == 0) // own tank
                 transform.root.GetChild(0).GetComponent<Turret_Controller_VR>().Alert_Turret_Penetration();
             else // ai on authority
-                transform.root.GetChild(0).GetComponent<AI_Controller_VR>().Alert_Turret_Penetration(ai_id);*/
+                transform.root.GetChild(0).GetComponent<AI_Controller_VR>().Alert_Turret_Penetration(ai_id);
             
 			return true;
 		}
