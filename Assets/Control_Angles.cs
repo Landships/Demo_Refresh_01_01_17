@@ -19,16 +19,10 @@ public class Control_Angles : MonoBehaviour {
     Transform hori_crank_transform;
     Transform vert_crank_transform;
 
-    float vert_lower = 360;
-    float vert_upper = -1800;
-
-    float vert_degree;
     float vert_prev;
 
     float vert_change;
 
-
-    float hori_degree;
     float hori_prev;
 
     float hori_change;
@@ -45,11 +39,8 @@ public class Control_Angles : MonoBehaviour {
         hori_crank_transform = hori_crank.GetComponent<Transform>();
         vert_crank_transform = vert_crank.GetComponent<Transform>();
 
-        vert_degree = vert_crank_joint.angle;
-        vert_prev = vert_degree;
-
-        hori_degree = hori_crank_joint.angle;
-        hori_prev = hori_degree;
+        vert_prev = vert_crank_joint.angle;
+        hori_prev = hori_crank_joint.angle;
     }
 
     void Update() {
@@ -58,40 +49,16 @@ public class Control_Angles : MonoBehaviour {
         if (curr < 0) {
             curr = 360 + curr;
         }
-
         vert_change = Mathf.DeltaAngle(vert_prev, curr); 
-
         vert_prev = curr;
-
-        vert_degree += vert_change;
-
-        if (vert_degree >= vert_lower) {
-            if (vert_change > 0) {
-                vert_degree = vert_lower;
-                vert_change = 0;
-                return;
-            }
-        } else if (vert_degree <= vert_upper) {
-            if (vert_change < 0) {
-                vert_degree = vert_upper;
-                vert_change = 0;
-                return;
-            }
-        }
-
 
         curr = hori_crank_joint.angle;
         if (curr < 0)
         {
             curr = 360 + curr;
         }
-
         hori_change = Mathf.DeltaAngle(hori_prev, curr);
-
         hori_prev = curr;
-
-        hori_degree += hori_change;
-
     }
 
     public float GetLeftLeverAngle() {
@@ -103,16 +70,6 @@ public class Control_Angles : MonoBehaviour {
         return right_lever.transform.localRotation.eulerAngles.x;
     }
 
-    public float GetHorCrankAngle() {
-
-        return hori_crank.transform.localRotation.eulerAngles.x;
-    }
-
-    public float GetVertCrankAngle() {
-
-        return vert_degree;
-    }
-
     public float GetVertCrankDelta() {
         return vert_change;
     }
@@ -121,22 +78,5 @@ public class Control_Angles : MonoBehaviour {
     {
         return hori_change;
     }
-
-    public void SetLeftLeverAngle(float localX) {
-        left_lever_transform.localEulerAngles = new Vector3(localX, left_lever_transform.localEulerAngles.y, left_lever_transform.localEulerAngles.z);
-    }
-
-    public void SetRightLeverAngle(float localX) {
-        right_lever_transform.localEulerAngles = new Vector3(localX, right_lever_transform.localEulerAngles.y, right_lever_transform.localEulerAngles.z);
-    }
-
-    public void SetLeftCrankAngle(float localX) {
-        hori_crank_transform.localEulerAngles = new Vector3(localX, hori_crank_transform.localEulerAngles.y, hori_crank_transform.localEulerAngles.z);
-    }
-
-    public void SetRightCrankAngle(float localX) {
-        vert_crank_transform.localEulerAngles = new Vector3(localX, vert_crank_transform.localEulerAngles.y, vert_crank_transform.localEulerAngles.z);
-    }
-
 
 }

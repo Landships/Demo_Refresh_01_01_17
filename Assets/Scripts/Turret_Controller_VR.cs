@@ -136,7 +136,7 @@ public class Turret_Controller_VR : Fire_Controller
 
     void Move_Turret() {
         cannon_vertical.Temp_Vertical = control_angles.GetVertCrankDelta() / 20f;
-        turret_horizontal.Temp_Horizontal = control_angles.GetHoriCrankDelta() / 20f;
+        turret_horizontal.Temp_Horizontal = control_angles.GetHoriCrankDelta() / 15f;
         
     }
 
@@ -149,12 +149,10 @@ public class Turret_Controller_VR : Fire_Controller
             if (Quaternion.Angle(turret_base.transform.localRotation, Quaternion.Euler(0, turret_base_rotation_y, 0)) > 0.1f)
             {
                 turret_base.transform.localRotation = Quaternion.Lerp(turret_base.transform.localRotation, Quaternion.Euler(0, turret_base_rotation_y, 0), 0.1f);
-                //turret_base.transform.localRotation = Quaternion.Euler(0, turret_base_rotation_y, 0);
                 
             }
             cannon_base.transform.localRotation = Quaternion.Lerp(cannon_base.transform.localRotation, Quaternion.Euler(cannon_base_rotation_x, 0, 0), 0.1f);
-            //cannon_base.transform.localRotation = Quaternion.Euler(cannon_base_rotation_x, 0, 0);
-
+            //Debug.Log(cannon_vertical.Current_Angle);
         }
     }
 

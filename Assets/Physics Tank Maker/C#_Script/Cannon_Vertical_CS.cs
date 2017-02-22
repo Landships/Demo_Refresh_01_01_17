@@ -12,7 +12,7 @@ public class Cannon_Vertical_CS : MonoBehaviour
     public bool Upper_Course = false;
     public bool AI_Reference = true;
 
-    float Current_Angle;
+    public float Current_Angle;
     float Target_Angle;
 
 
@@ -57,6 +57,7 @@ public class Cannon_Vertical_CS : MonoBehaviour
         Grabity = Physics.gravity.y;
         Turret_Horizontal_Script = transform.parent.GetComponent<Turret_Horizontal_CS>();
         Cannon_Fire_Script = GetComponent<Cannon_Fire_CS>();
+        Debug.Log("Current = " + Current_Angle + " Max Elevation = " + Max_Elevation + " Max_Depress = " + Max_Depression);
     }
 
     void Update()
