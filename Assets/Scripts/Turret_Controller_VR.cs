@@ -89,11 +89,11 @@ public class Turret_Controller_VR : Fire_Controller
             {
                 if (reliable_message)
                 {
-                    if (n_manager_script.server_read_client_reliable_buffer(1) == 1)
+                    if (n_manager_script.client_read_server_reliable_buffer(1) == 1)
                     {
                         cannon_fire.Fire();
                     }
-                    if (n_manager_script.server_read_client_reliable_buffer(6) == 1)
+                    if (n_manager_script.client_read_server_reliable_buffer(6) == 1)
                     {
                         turret.GetComponent<Damage_Control_CS>().Penetration();
                     }
