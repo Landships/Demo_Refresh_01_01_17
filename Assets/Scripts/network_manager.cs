@@ -984,6 +984,11 @@ public class network_manager : MonoBehaviour
                 }
                 
                 break;
+
+            case NetworkEventType.DisconnectEvent:
+                Debug.Log("Client has disconnected");
+                client_reconnect();
+                break;
         }
     }
 
@@ -1081,8 +1086,21 @@ public class network_manager : MonoBehaviour
 
 
 
-
-
+    /// Reconnect Functions
+    void client_reconnect()
+    {
+        byte error;
+        client_connection = NetworkTransport.Connect(client_socket_ID, server_ip, server_port, 0, out error);
+        if (error != 0)
+        {
+            Debug.Log("Client reconnect FAILED");
+            Debug.Log(error.ToString());
+        }
+        else
+        {
+            Debug.Log("Client reconnect attempt");
+        }
+    }
 
 
 
