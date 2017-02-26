@@ -122,8 +122,8 @@ public class Turret_Controller_VR : Fire_Controller
     {
         if (current_player == 2)
             return;
-        BroadcastMessage("Alert", Type);
-        n_manager_script.send_reliable_from_server(6, Type);
+        //BroadcastMessage("Alert", Type);
+        //n_manager_script.send_reliable_from_server(6, Type);
         Debug.Log("Alert Penetration, type = " + Type);
         //reliable
     }
