@@ -20,7 +20,7 @@ public class Trajectory : MonoBehaviour {
         trajectoryLine.endColor = Color.red;
         position = bulletScript.transform.position + -3* bulletScript.transform.forward;
         velocity = bulletScript.transform.forward * bulletScript.Bullet_Force; //Offset added in original script-What does it do?
-
+        trajectoryLine.enabled = false;
 
     }
 
@@ -29,6 +29,7 @@ public class Trajectory : MonoBehaviour {
         position = bulletScript.transform.position + -3 * bulletScript.transform.forward;
         velocity = bulletScript.transform.forward * bulletScript.Bullet_Force;
         updateTrajectory(position, velocity);
+        // Use hotkey "t" to toggle whether the laser sight is displayed or not
         if (Input.GetKeyDown("t") == true) {
             trajectoryLine.enabled = !trajectoryLine.enabled;
         }
