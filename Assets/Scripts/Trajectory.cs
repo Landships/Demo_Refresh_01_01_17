@@ -29,6 +29,9 @@ public class Trajectory : MonoBehaviour {
         position = bulletScript.transform.position + -3 * bulletScript.transform.forward;
         velocity = bulletScript.transform.forward * bulletScript.Bullet_Force;
         updateTrajectory(position, velocity);
+        if (Input.GetKeyDown("t") == true) {
+            trajectoryLine.enabled = !trajectoryLine.enabled;
+        }
     }
 
     private void updateTrajectory(Vector3 position, Vector3 velocity) {
