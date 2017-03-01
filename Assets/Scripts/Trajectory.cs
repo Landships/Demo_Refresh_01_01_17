@@ -13,14 +13,19 @@ public class Trajectory : MonoBehaviour {
     private Vector3 position;
     private Vector3 velocity;
 
-    
+    byte current_player = 2; // Default to 2 so that laser is off by default
+    GameObject n_manager;
+    network_manager n_manager_script;
+
+
+
     void Start() {
         trajectoryLine = GetComponent<LineRenderer>();
         trajectoryLine.startColor = Color.red;
         trajectoryLine.endColor = Color.red;
         position = bulletScript.transform.position + -3* bulletScript.transform.forward;
         velocity = bulletScript.transform.forward * bulletScript.Bullet_Force; //Offset added in original script-What does it do?
-        trajectoryLine.enabled = false;
+        //trajectoryLine.enabled = false;
 
     }
 
@@ -48,5 +53,13 @@ public class Trajectory : MonoBehaviour {
 
         }
 
+    }
+
+    public void Prep() {
+        n_manager = GameObject.Find("Custom Network Manager(Clone)");
+        n_manager_script = n_manager.GetComponent<network_manager>();
+        current_player = (byte)(n_manager_script.client_players_amount);
+
+        trajectoryLine.enabled = current_player == 1;
     }
 }
